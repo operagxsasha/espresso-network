@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `crates/hotshot/types/src/traits/block_contents.rs`."><title>block_contents.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Italic-81dc35de.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-MediumItalic-ccf7e434.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2"href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../../static.files/rustdoc-e56847b5.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="hotshot_types" data-themes="" data-resource-suffix="" data-rustdoc-version="1.91.0 (f8297e351 2025-10-28)" data-channel="1.91.0" data-search-js="search-e256b49e.js" data-stringdex-js="stringdex-c3e638e9.js" data-settings-js="settings-c38705f0.js" ><script src="../../../static.files/storage-e2aeef58.js"></script><script defer src="../../../static.files/src-script-813739b1.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-6dc2a7f3.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-263c88ec.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-eab170b8.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-044be391.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer" title="Drag to resize sidebar"></div><main><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">hotshot_types/traits/</div>block_contents.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap digits-3"><pre class="rust"><code><a href=#1 id=1 data-nosnippet>1</a><span class="comment">// Copyright (c) 2021-2024 Espresso Systems (espressosys.com)
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `crates/hotshot/types/src/traits/block_contents.rs`."><title>block_contents.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Italic-81dc35de.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-MediumItalic-ccf7e434.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2"href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../../static.files/rustdoc-17e0aaed.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="hotshot_types" data-themes="" data-resource-suffix="" data-rustdoc-version="1.97.1 (8bab26f4f 2026-07-14)" data-channel="1.97.1" data-search-js="search-fd9372ac.js" data-stringdex-js="stringdex-2da4960a.js" data-settings-js="settings-170eb4bf.js" ><script src="../../../static.files/storage-41dd4d93.js"></script><script defer src="../../../static.files/src-script-813739b1.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-fcd733ba.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-f7c3ffd8.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-eab170b8.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-044be391.svg"></head><body class="rustdoc src"><a class="skip-main-content" href="#main-content">Skip to main content</a><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer" title="Drag to resize sidebar"></div><main><section id="main-content" class="content" tabindex="-1"><div class="main-heading"><h1><div class="sub-heading">hotshot_types/traits/</div>block_contents.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap digits-3"><pre class="rust"><code><a href=#1 id=1 data-nosnippet>1</a><span class="comment">// Copyright (c) 2021-2024 Espresso Systems (espressosys.com)
 <a href=#2 id=2 data-nosnippet>2</a>// This file is part of the HotShot repository.
 <a href=#3 id=3 data-nosnippet>3</a>
 <a href=#4 id=4 data-nosnippet>4</a>// You should have received a copy of the MIT License
@@ -17,17 +17,17 @@
 <a href=#17 id=17 data-nosnippet>17</a>    sync::Arc,
 <a href=#18 id=18 data-nosnippet>18</a>};
 <a href=#19 id=19 data-nosnippet>19</a>
-<a href=#20 id=20 data-nosnippet>20</a><span class="kw">use </span>alloy::primitives::FixedBytes;
+<a href=#20 id=20 data-nosnippet>20</a><span class="kw">use </span>alloy_primitives::FixedBytes;
 <a href=#21 id=21 data-nosnippet>21</a><span class="kw">use </span>async_trait::async_trait;
 <a href=#22 id=22 data-nosnippet>22</a><span class="kw">use </span>committable::{Commitment, Committable};
-<a href=#23 id=23 data-nosnippet>23</a><span class="kw">use </span>serde::{de::DeserializeOwned, Deserialize, Serialize};
+<a href=#23 id=23 data-nosnippet>23</a><span class="kw">use </span>serde::{Deserialize, Serialize, de::DeserializeOwned};
 <a href=#24 id=24 data-nosnippet>24</a><span class="kw">use </span>vbs::version::Version;
 <a href=#25 id=25 data-nosnippet>25</a>
-<a href=#26 id=26 data-nosnippet>26</a><span class="kw">use super</span>::{node_implementation::Versions, signature_key::BuilderSignatureKey};
+<a href=#26 id=26 data-nosnippet>26</a><span class="kw">use </span><span class="kw">super</span>::signature_key::BuilderSignatureKey;
 <a href=#27 id=27 data-nosnippet>27</a><span class="kw">use crate</span>::{
-<a href=#28 id=28 data-nosnippet>28</a>    data::{Leaf2, VidCommitment},
+<a href=#28 id=28 data-nosnippet>28</a>    data::{Leaf2, VidCommitment, ViewNumber},
 <a href=#29 id=29 data-nosnippet>29</a>    light_client::LightClientState,
-<a href=#30 id=30 data-nosnippet>30</a>    traits::{node_implementation::NodeType, states::InstanceState, ValidatedState},
+<a href=#30 id=30 data-nosnippet>30</a>    traits::{ValidatedState, node_implementation::NodeType, states::InstanceState},
 <a href=#31 id=31 data-nosnippet>31</a>    utils::BuilderCommitment,
 <a href=#32 id=32 data-nosnippet>32</a>};
 <a href=#33 id=33 data-nosnippet>33</a>
@@ -182,39 +182,44 @@
 <a href=#182 id=182 data-nosnippet>182</a>    ) -&gt; <span class="kw">impl </span>Future&lt;Output = <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, <span class="self">Self</span>::Error&gt;&gt; + Send;
 <a href=#183 id=183 data-nosnippet>183</a>
 <a href=#184 id=184 data-nosnippet>184</a>    <span class="doccomment">/// Build the genesis header, payload, and metadata.
-<a href=#185 id=185 data-nosnippet>185</a>    </span><span class="kw">fn </span>genesis&lt;V: Versions&gt;(
+<a href=#185 id=185 data-nosnippet>185</a>    </span><span class="kw">fn </span>genesis(
 <a href=#186 id=186 data-nosnippet>186</a>        instance_state: <span class="kw-2">&amp;</span>&lt;TYPES::ValidatedState <span class="kw">as </span>ValidatedState&lt;TYPES&gt;&gt;::Instance,
 <a href=#187 id=187 data-nosnippet>187</a>        payload: TYPES::BlockPayload,
 <a href=#188 id=188 data-nosnippet>188</a>        metadata: <span class="kw-2">&amp;</span>&lt;TYPES::BlockPayload <span class="kw">as </span>BlockPayload&lt;TYPES&gt;&gt;::Metadata,
-<a href=#189 id=189 data-nosnippet>189</a>    ) -&gt; <span class="self">Self</span>;
-<a href=#190 id=190 data-nosnippet>190</a>
-<a href=#191 id=191 data-nosnippet>191</a>    <span class="doccomment">/// Get the block number.
-<a href=#192 id=192 data-nosnippet>192</a>    </span><span class="kw">fn </span>block_number(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; u64;
-<a href=#193 id=193 data-nosnippet>193</a>
-<a href=#194 id=194 data-nosnippet>194</a>    <span class="doccomment">/// Get the timestamp.
-<a href=#195 id=195 data-nosnippet>195</a>    </span><span class="kw">fn </span>timestamp(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; u64;
-<a href=#196 id=196 data-nosnippet>196</a>
-<a href=#197 id=197 data-nosnippet>197</a>    <span class="doccomment">/// Get the timestamp in milliseconds.
-<a href=#198 id=198 data-nosnippet>198</a>    </span><span class="kw">fn </span>timestamp_millis(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; u64;
-<a href=#199 id=199 data-nosnippet>199</a>
-<a href=#200 id=200 data-nosnippet>200</a>    <span class="doccomment">/// Get the payload commitment.
-<a href=#201 id=201 data-nosnippet>201</a>    </span><span class="kw">fn </span>payload_commitment(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; VidCommitment;
-<a href=#202 id=202 data-nosnippet>202</a>
-<a href=#203 id=203 data-nosnippet>203</a>    <span class="doccomment">/// Get the metadata.
-<a href=#204 id=204 data-nosnippet>204</a>    </span><span class="kw">fn </span>metadata(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>&lt;TYPES::BlockPayload <span class="kw">as </span>BlockPayload&lt;TYPES&gt;&gt;::Metadata;
-<a href=#205 id=205 data-nosnippet>205</a>
-<a href=#206 id=206 data-nosnippet>206</a>    <span class="doccomment">/// Get the builder commitment
-<a href=#207 id=207 data-nosnippet>207</a>    </span><span class="kw">fn </span>builder_commitment(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; BuilderCommitment;
-<a href=#208 id=208 data-nosnippet>208</a>
-<a href=#209 id=209 data-nosnippet>209</a>    <span class="doccomment">/// Get the light client state
-<a href=#210 id=210 data-nosnippet>210</a>    </span><span class="kw">fn </span>get_light_client_state(<span class="kw-2">&amp;</span><span class="self">self</span>, view: TYPES::View) -&gt; anyhow::Result&lt;LightClientState&gt;;
-<a href=#211 id=211 data-nosnippet>211</a>
-<a href=#212 id=212 data-nosnippet>212</a>    <span class="doccomment">/// Returns the `auth_root` value for versions &gt;= V4 (`DrbAndHeaderUpgrade`).
-<a href=#213 id=213 data-nosnippet>213</a>    ///
-<a href=#214 id=214 data-nosnippet>214</a>    /// For versions &lt; V4, this will return `None`.
-<a href=#215 id=215 data-nosnippet>215</a>    ///
-<a href=#216 id=216 data-nosnippet>216</a>    /// The `auth_root` is a 32-byte hash calculated using the reward Merkle tree
-<a href=#217 id=217 data-nosnippet>217</a>    /// digest and other values.  
-<a href=#218 id=218 data-nosnippet>218</a>    /// It is used by the reward claim contract to verify the reward claim
-<a href=#219 id=219 data-nosnippet>219</a>    </span><span class="kw">fn </span>auth_root(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; anyhow::Result&lt;FixedBytes&lt;<span class="number">32</span>&gt;&gt;;
-<a href=#220 id=220 data-nosnippet>220</a>}</code></pre></div></section></main></body></html>
+<a href=#189 id=189 data-nosnippet>189</a>        version: Version,
+<a href=#190 id=190 data-nosnippet>190</a>    ) -&gt; <span class="self">Self</span>;
+<a href=#191 id=191 data-nosnippet>191</a>
+<a href=#192 id=192 data-nosnippet>192</a>    <span class="doccomment">/// Get the block number.
+<a href=#193 id=193 data-nosnippet>193</a>    </span><span class="kw">fn </span>block_number(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; u64;
+<a href=#194 id=194 data-nosnippet>194</a>
+<a href=#195 id=195 data-nosnippet>195</a>    <span class="doccomment">/// Get the timestamp.
+<a href=#196 id=196 data-nosnippet>196</a>    </span><span class="kw">fn </span>timestamp(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; u64;
+<a href=#197 id=197 data-nosnippet>197</a>
+<a href=#198 id=198 data-nosnippet>198</a>    <span class="doccomment">/// Get the timestamp in milliseconds.
+<a href=#199 id=199 data-nosnippet>199</a>    </span><span class="kw">fn </span>timestamp_millis(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; u64;
+<a href=#200 id=200 data-nosnippet>200</a>
+<a href=#201 id=201 data-nosnippet>201</a>    <span class="doccomment">/// Get the payload commitment.
+<a href=#202 id=202 data-nosnippet>202</a>    </span><span class="kw">fn </span>payload_commitment(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; VidCommitment;
+<a href=#203 id=203 data-nosnippet>203</a>
+<a href=#204 id=204 data-nosnippet>204</a>    <span class="doccomment">/// Get the metadata.
+<a href=#205 id=205 data-nosnippet>205</a>    </span><span class="kw">fn </span>metadata(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>&lt;TYPES::BlockPayload <span class="kw">as </span>BlockPayload&lt;TYPES&gt;&gt;::Metadata;
+<a href=#206 id=206 data-nosnippet>206</a>
+<a href=#207 id=207 data-nosnippet>207</a>    <span class="doccomment">/// Get the protocol version for this block.
+<a href=#208 id=208 data-nosnippet>208</a>    </span><span class="kw">fn </span>version(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Version;
+<a href=#209 id=209 data-nosnippet>209</a>
+<a href=#210 id=210 data-nosnippet>210</a>    <span class="doccomment">/// Get the builder commitment
+<a href=#211 id=211 data-nosnippet>211</a>    </span><span class="kw">fn </span>builder_commitment(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; BuilderCommitment;
+<a href=#212 id=212 data-nosnippet>212</a>
+<a href=#213 id=213 data-nosnippet>213</a>    <span class="doccomment">/// Get the light client state
+<a href=#214 id=214 data-nosnippet>214</a>    </span><span class="kw">fn </span>get_light_client_state(<span class="kw-2">&amp;</span><span class="self">self</span>, view: ViewNumber) -&gt; anyhow::Result&lt;LightClientState&gt;;
+<a href=#215 id=215 data-nosnippet>215</a>
+<a href=#216 id=216 data-nosnippet>216</a>    <span class="doccomment">/// Returns the `auth_root` value for versions &gt;= V4 (`DrbAndHeaderUpgrade`).
+<a href=#217 id=217 data-nosnippet>217</a>    ///
+<a href=#218 id=218 data-nosnippet>218</a>    /// For versions &lt; V4, this will return `None`.
+<a href=#219 id=219 data-nosnippet>219</a>    ///
+<a href=#220 id=220 data-nosnippet>220</a>    /// The `auth_root` is a 32-byte hash calculated using the reward Merkle tree
+<a href=#221 id=221 data-nosnippet>221</a>    /// digest and other values.
+<a href=#222 id=222 data-nosnippet>222</a>    /// It is used by the reward claim contract to verify the reward claim
+<a href=#223 id=223 data-nosnippet>223</a>    </span><span class="kw">fn </span>auth_root(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; anyhow::Result&lt;FixedBytes&lt;<span class="number">32</span>&gt;&gt;;
+<a href=#224 id=224 data-nosnippet>224</a>}
+</code></pre></div></section></main></body></html>

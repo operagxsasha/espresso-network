@@ -1,8 +1,8 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `types/src/v0/impls/block/full_payload/payload.rs`."><title>payload.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Italic-81dc35de.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-MediumItalic-ccf7e434.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2"href="../../../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../../../../../static.files/rustdoc-e56847b5.css"><meta name="rustdoc-vars" data-root-path="../../../../../../" data-static-root-path="../../../../../../static.files/" data-current-crate="espresso_types" data-themes="" data-resource-suffix="" data-rustdoc-version="1.91.0 (f8297e351 2025-10-28)" data-channel="1.91.0" data-search-js="search-e256b49e.js" data-stringdex-js="stringdex-c3e638e9.js" data-settings-js="settings-c38705f0.js" ><script src="../../../../../../static.files/storage-e2aeef58.js"></script><script defer src="../../../../../../static.files/src-script-813739b1.js"></script><script defer src="../../../../../../src-files.js"></script><script defer src="../../../../../../static.files/main-6dc2a7f3.js"></script><noscript><link rel="stylesheet" href="../../../../../../static.files/noscript-263c88ec.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../../static.files/favicon-32x32-eab170b8.png"><link rel="icon" type="image/svg+xml" href="../../../../../../static.files/favicon-044be391.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer" title="Drag to resize sidebar"></div><main><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">espresso_types/v0/impls/block/full_payload/</div>payload.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap digits-3"><pre class="rust"><code><a href=#1 id=1 data-nosnippet>1</a><span class="kw">use </span>std::{collections::BTreeMap, sync::Arc};
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `crates/espresso/types/src/v0/impls/block/full_payload/payload.rs`."><title>payload.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Italic-81dc35de.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-MediumItalic-ccf7e434.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2"href="../../../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../../../../../static.files/rustdoc-17e0aaed.css"><meta name="rustdoc-vars" data-root-path="../../../../../../" data-static-root-path="../../../../../../static.files/" data-current-crate="espresso_types" data-themes="" data-resource-suffix="" data-rustdoc-version="1.97.1 (8bab26f4f 2026-07-14)" data-channel="1.97.1" data-search-js="search-fd9372ac.js" data-stringdex-js="stringdex-2da4960a.js" data-settings-js="settings-170eb4bf.js" ><script src="../../../../../../static.files/storage-41dd4d93.js"></script><script defer src="../../../../../../static.files/src-script-813739b1.js"></script><script defer src="../../../../../../src-files.js"></script><script defer src="../../../../../../static.files/main-fcd733ba.js"></script><noscript><link rel="stylesheet" href="../../../../../../static.files/noscript-f7c3ffd8.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../../static.files/favicon-32x32-eab170b8.png"><link rel="icon" type="image/svg+xml" href="../../../../../../static.files/favicon-044be391.svg"></head><body class="rustdoc src"><a class="skip-main-content" href="#main-content">Skip to main content</a><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer" title="Drag to resize sidebar"></div><main><section id="main-content" class="content" tabindex="-1"><div class="main-heading"><h1><div class="sub-heading">espresso_types/v0/impls/block/full_payload/</div>payload.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap digits-3"><pre class="rust"><code><a href=#1 id=1 data-nosnippet>1</a><span class="kw">use </span>std::{collections::BTreeMap, sync::Arc};
 <a href=#2 id=2 data-nosnippet>2</a>
 <a href=#3 id=3 data-nosnippet>3</a><span class="kw">use </span>async_trait::async_trait;
 <a href=#4 id=4 data-nosnippet>4</a><span class="kw">use </span>committable::Committable;
-<a href=#5 id=5 data-nosnippet>5</a><span class="kw">use </span>hotshot_query_service::availability::{QueryablePayload, VidCommonQueryData};
+<a href=#5 id=5 data-nosnippet>5</a><span class="kw">use </span>hotshot_query_service_types::availability::{QueryablePayload, VidCommonQueryData};
 <a href=#6 id=6 data-nosnippet>6</a><span class="kw">use </span>hotshot_types::{
 <a href=#7 id=7 data-nosnippet>7</a>    data::ViewNumber,
 <a href=#8 id=8 data-nosnippet>8</a>    traits::{BlockPayload, EncodeBytes},
@@ -14,10 +14,10 @@
 <a href=#14 id=14 data-nosnippet>14</a><span class="kw">use </span>thiserror::Error;
 <a href=#15 id=15 data-nosnippet>15</a>
 <a href=#16 id=16 data-nosnippet>16</a><span class="kw">use crate</span>::{
-<a href=#17 id=17 data-nosnippet>17</a>    v0::impls::{NodeState, ValidatedState},
-<a href=#18 id=18 data-nosnippet>18</a>    v0_3::ChainConfig,
-<a href=#19 id=19 data-nosnippet>19</a>    Index, Iter, NamespaceId, NsIndex, NsPayload, NsPayloadBuilder, NsPayloadRange, NsTable,
-<a href=#20 id=20 data-nosnippet>20</a>    NsTableBuilder, Payload, PayloadByteLen, SeqTypes, Transaction, TxIndex, TxProof,
+<a href=#17 id=17 data-nosnippet>17</a>    Index, Iter, NamespaceId, NsIndex, NsPayload, NsPayloadBuilder, NsPayloadRange, NsTable,
+<a href=#18 id=18 data-nosnippet>18</a>    NsTableBuilder, Payload, PayloadByteLen, SeqTypes, Transaction, TxIndex, TxProof,
+<a href=#19 id=19 data-nosnippet>19</a>    v0::impls::{NodeState, ValidatedState},
+<a href=#20 id=20 data-nosnippet>20</a>    v0_3::ChainConfig,
 <a href=#21 id=21 data-nosnippet>21</a>};
 <a href=#22 id=22 data-nosnippet>22</a>
 <a href=#23 id=23 data-nosnippet>23</a><span class="attr">#[derive(serde::Deserialize, serde::Serialize, Error, Debug, Eq, PartialEq)]
@@ -70,7 +70,7 @@
 <a href=#70 id=70 data-nosnippet>70</a>    <span class="comment">// PRIVATE HELPERS START HERE
 <a href=#71 id=71 data-nosnippet>71</a>
 <a href=#72 id=72 data-nosnippet>72</a>    </span><span class="doccomment">/// Need a sync version of [`BlockPayload::from_transactions`] in order to impl [`BlockPayload::empty`].
-<a href=#73 id=73 data-nosnippet>73</a>    </span><span class="kw">fn </span>from_transactions_sync(
+<a href=#73 id=73 data-nosnippet>73</a>    </span><span class="kw">pub fn </span>from_transactions_sync(
 <a href=#74 id=74 data-nosnippet>74</a>        transactions: <span class="kw">impl </span>IntoIterator&lt;Item = &lt;<span class="self">Self </span><span class="kw">as </span>BlockPayload&lt;SeqTypes&gt;&gt;::Transaction&gt; + Send,
 <a href=#75 id=75 data-nosnippet>75</a>        chain_config: ChainConfig,
 <a href=#76 id=76 data-nosnippet>76</a>    ) -&gt; <span class="prelude-ty">Result</span>&lt;
@@ -186,16 +186,16 @@
 <a href=#186 id=186 data-nosnippet>186</a>        <span class="comment">// TODO `metadata_bytes` equals `ns_table_bytes`, so we are
 <a href=#187 id=187 data-nosnippet>187</a>        // double-hashing the ns_table. Why? To maintain serialization
 <a href=#188 id=188 data-nosnippet>188</a>        // compatibility.
-<a href=#189 id=189 data-nosnippet>189</a>        // https://github.com/EspressoSystems/espresso-sequencer/issues/1576
+<a href=#189 id=189 data-nosnippet>189</a>        // https://github.com/EspressoSystems/espresso-network/issues/1576
 <a href=#190 id=190 data-nosnippet>190</a>        </span><span class="kw">let </span>metadata_bytes = metadata.encode();
 <a href=#191 id=191 data-nosnippet>191</a>
 <a href=#192 id=192 data-nosnippet>192</a>        <span class="kw">let </span><span class="kw-2">mut </span>digest = sha2::Sha256::new();
 <a href=#193 id=193 data-nosnippet>193</a>        digest.update((<span class="self">self</span>.raw_payload.len() <span class="kw">as </span>u64).to_le_bytes());
 <a href=#194 id=194 data-nosnippet>194</a>        digest.update((ns_table_bytes.len() <span class="kw">as </span>u64).to_le_bytes());
-<a href=#195 id=195 data-nosnippet>195</a>        digest.update((metadata_bytes.len() <span class="kw">as </span>u64).to_le_bytes()); <span class="comment">// https://github.com/EspressoSystems/espresso-sequencer/issues/1576
+<a href=#195 id=195 data-nosnippet>195</a>        digest.update((metadata_bytes.len() <span class="kw">as </span>u64).to_le_bytes()); <span class="comment">// https://github.com/EspressoSystems/espresso-network/issues/1576
 <a href=#196 id=196 data-nosnippet>196</a>        </span>digest.update(<span class="kw-2">&amp;</span><span class="self">self</span>.raw_payload);
 <a href=#197 id=197 data-nosnippet>197</a>        digest.update(ns_table_bytes);
-<a href=#198 id=198 data-nosnippet>198</a>        digest.update(metadata_bytes); <span class="comment">// https://github.com/EspressoSystems/espresso-sequencer/issues/1576
+<a href=#198 id=198 data-nosnippet>198</a>        digest.update(metadata_bytes); <span class="comment">// https://github.com/EspressoSystems/espresso-network/issues/1576
 <a href=#199 id=199 data-nosnippet>199</a>        </span>BuilderCommitment::from_raw_digest(digest.finalize())
 <a href=#200 id=200 data-nosnippet>200</a>    }
 <a href=#201 id=201 data-nosnippet>201</a>
@@ -301,4 +301,5 @@
 <a href=#301 id=301 data-nosnippet>301</a>    <span class="kw">pub fn </span>ns_table_mut(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;mut </span>NsTable {
 <a href=#302 id=302 data-nosnippet>302</a>        <span class="kw-2">&amp;mut </span><span class="self">self</span>.ns_table
 <a href=#303 id=303 data-nosnippet>303</a>    }
-<a href=#304 id=304 data-nosnippet>304</a>}</code></pre></div></section></main></body></html>
+<a href=#304 id=304 data-nosnippet>304</a>}
+</code></pre></div></section></main></body></html>

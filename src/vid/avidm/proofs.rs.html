@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `vid/src/avidm/proofs.rs`."><title>proofs.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Italic-81dc35de.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-MediumItalic-ccf7e434.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2"href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../../static.files/rustdoc-e56847b5.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="vid" data-themes="" data-resource-suffix="" data-rustdoc-version="1.91.0 (f8297e351 2025-10-28)" data-channel="1.91.0" data-search-js="search-e256b49e.js" data-stringdex-js="stringdex-c3e638e9.js" data-settings-js="settings-c38705f0.js" ><script src="../../../static.files/storage-e2aeef58.js"></script><script defer src="../../../static.files/src-script-813739b1.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-6dc2a7f3.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-263c88ec.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-eab170b8.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-044be391.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer" title="Drag to resize sidebar"></div><main><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">vid/avidm/</div>proofs.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap digits-3"><pre class="rust"><code><a href=#1 id=1 data-nosnippet>1</a><span class="doccomment">//! This module implements encoding proofs for the Avid-M Scheme.
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `crates/vid/src/avidm/proofs.rs`."><title>proofs.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Italic-81dc35de.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-MediumItalic-ccf7e434.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2"href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../../static.files/rustdoc-17e0aaed.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="vid" data-themes="" data-resource-suffix="" data-rustdoc-version="1.97.1 (8bab26f4f 2026-07-14)" data-channel="1.97.1" data-search-js="search-fd9372ac.js" data-stringdex-js="stringdex-2da4960a.js" data-settings-js="settings-170eb4bf.js" ><script src="../../../static.files/storage-41dd4d93.js"></script><script defer src="../../../static.files/src-script-813739b1.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-fcd733ba.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-f7c3ffd8.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-eab170b8.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-044be391.svg"></head><body class="rustdoc src"><a class="skip-main-content" href="#main-content">Skip to main content</a><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer" title="Drag to resize sidebar"></div><main><section id="main-content" class="content" tabindex="-1"><div class="main-heading"><h1><div class="sub-heading">vid/avidm/</div>proofs.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap digits-3"><pre class="rust"><code><a href=#1 id=1 data-nosnippet>1</a><span class="doccomment">//! This module implements encoding proofs for the Avid-M Scheme.
 <a href=#2 id=2 data-nosnippet>2</a>
 <a href=#3 id=3 data-nosnippet>3</a></span><span class="kw">use </span>std::{collections::HashSet, ops::Range};
 <a href=#4 id=4 data-nosnippet>4</a>
@@ -7,12 +7,12 @@
 <a href=#7 id=7 data-nosnippet>7</a><span class="kw">use </span>serde::{Deserialize, Serialize};
 <a href=#8 id=8 data-nosnippet>8</a>
 <a href=#9 id=9 data-nosnippet>9</a><span class="kw">use crate</span>::{
-<a href=#10 id=10 data-nosnippet>10</a>    avidm::{
-<a href=#11 id=11 data-nosnippet>11</a>        config::AvidMConfig,
-<a href=#12 id=12 data-nosnippet>12</a>        namespaced::{NsAvidMCommit, NsAvidMScheme, NsAvidMShare},
-<a href=#13 id=13 data-nosnippet>13</a>        AvidMCommit, AvidMParam, AvidMScheme, AvidMShare, Config, MerkleProof, MerkleTree, F,
-<a href=#14 id=14 data-nosnippet>14</a>    },
-<a href=#15 id=15 data-nosnippet>15</a>    VerificationResult, VidError, VidResult, VidScheme,
+<a href=#10 id=10 data-nosnippet>10</a>    VerificationResult, VidError, VidResult, VidScheme,
+<a href=#11 id=11 data-nosnippet>11</a>    avidm::{
+<a href=#12 id=12 data-nosnippet>12</a>        AvidMCommit, AvidMParam, AvidMScheme, AvidMShare, Config, F, MerkleProof, MerkleTree,
+<a href=#13 id=13 data-nosnippet>13</a>        config::AvidMConfig,
+<a href=#14 id=14 data-nosnippet>14</a>        namespaced::{NsAvidMCommit, NsAvidMScheme, NsAvidMShare},
+<a href=#15 id=15 data-nosnippet>15</a>    },
 <a href=#16 id=16 data-nosnippet>16</a>};
 <a href=#17 id=17 data-nosnippet>17</a>
 <a href=#18 id=18 data-nosnippet>18</a><span class="doccomment">/// A proof of incorrect encoding.
@@ -72,7 +72,7 @@
 <a href=#72 id=72 data-nosnippet>72</a>                .clone()
 <a href=#73 id=73 data-nosnippet>73</a>                .zip(share.content.mt_proofs.iter())
 <a href=#74 id=74 data-nosnippet>74</a>            {
-<a href=#75 id=75 data-nosnippet>75</a>                <span class="kw">if </span>index &gt; param.total_weights {
+<a href=#75 id=75 data-nosnippet>75</a>                <span class="kw">if </span>index &gt;= param.total_weights {
 <a href=#76 id=76 data-nosnippet>76</a>                    <span class="kw">return </span><span class="prelude-val">Err</span>(VidError::InvalidShare);
 <a href=#77 id=77 data-nosnippet>77</a>                }
 <a href=#78 id=78 data-nosnippet>78</a>                <span class="kw">if </span>visited_indices.contains(<span class="kw-2">&amp;</span>index) {
@@ -297,18 +297,18 @@
 <a href=#297 id=297 data-nosnippet>297</a></span><span class="kw">mod </span>tests {
 <a href=#298 id=298 data-nosnippet>298</a>    <span class="kw">use </span>ark_poly::EvaluationDomain;
 <a href=#299 id=299 data-nosnippet>299</a>    <span class="kw">use </span>jf_merkle_tree::MerkleTreeScheme;
-<a href=#300 id=300 data-nosnippet>300</a>    <span class="kw">use </span>rand::{seq::SliceRandom, Rng};
+<a href=#300 id=300 data-nosnippet>300</a>    <span class="kw">use </span>rand::{Rng, seq::SliceRandom};
 <a href=#301 id=301 data-nosnippet>301</a>
 <a href=#302 id=302 data-nosnippet>302</a>    <span class="kw">use crate</span>::{
-<a href=#303 id=303 data-nosnippet>303</a>        avidm::{
-<a href=#304 id=304 data-nosnippet>304</a>            config::AvidMConfig,
-<a href=#305 id=305 data-nosnippet>305</a>            namespaced::{NsAvidMCommit, NsAvidMScheme, NsAvidMShare},
-<a href=#306 id=306 data-nosnippet>306</a>            proofs::AvidMBadEncodingProof,
-<a href=#307 id=307 data-nosnippet>307</a>            radix2_domain, AvidMCommit, AvidMScheme, AvidMShare, Config, MerkleTree, RawAvidMShare,
-<a href=#308 id=308 data-nosnippet>308</a>            F,
-<a href=#309 id=309 data-nosnippet>309</a>        },
-<a href=#310 id=310 data-nosnippet>310</a>        utils::bytes_to_field,
-<a href=#311 id=311 data-nosnippet>311</a>        VidScheme,
+<a href=#303 id=303 data-nosnippet>303</a>        VidScheme,
+<a href=#304 id=304 data-nosnippet>304</a>        avidm::{
+<a href=#305 id=305 data-nosnippet>305</a>            AvidMCommit, AvidMScheme, AvidMShare, Config, F, MerkleTree, RawAvidMShare,
+<a href=#306 id=306 data-nosnippet>306</a>            config::AvidMConfig,
+<a href=#307 id=307 data-nosnippet>307</a>            namespaced::{NsAvidMCommit, NsAvidMScheme, NsAvidMShare},
+<a href=#308 id=308 data-nosnippet>308</a>            proofs::AvidMBadEncodingProof,
+<a href=#309 id=309 data-nosnippet>309</a>            radix2_domain,
+<a href=#310 id=310 data-nosnippet>310</a>        },
+<a href=#311 id=311 data-nosnippet>311</a>        utils::bytes_to_field,
 <a href=#312 id=312 data-nosnippet>312</a>    };
 <a href=#313 id=313 data-nosnippet>313</a>
 <a href=#314 id=314 data-nosnippet>314</a>    <span class="attr">#[test]
@@ -499,14 +499,44 @@
 <a href=#499 id=499 data-nosnippet>499</a>
 <a href=#500 id=500 data-nosnippet>500</a>        <span class="comment">// Good namespaces
 <a href=#501 id=501 data-nosnippet>501</a>        </span><span class="kw">for </span>ns_index <span class="kw">in </span>[<span class="number">0</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>] {
-<a href=#502 id=502 data-nosnippet>502</a>            <span class="macro">assert!</span>(NsAvidMScheme::proof_of_incorrect_encoding_for_namespace(
-<a href=#503 id=503 data-nosnippet>503</a>                <span class="kw-2">&amp;</span>param, ns_index, <span class="kw-2">&amp;</span>commit, <span class="kw-2">&amp;</span>shares
-<a href=#504 id=504 data-nosnippet>504</a>            )
-<a href=#505 id=505 data-nosnippet>505</a>            .is_err());
-<a href=#506 id=506 data-nosnippet>506</a>        }
-<a href=#507 id=507 data-nosnippet>507</a>
-<a href=#508 id=508 data-nosnippet>508</a>        <span class="kw">let </span>proof = NsAvidMScheme::proof_of_incorrect_encoding(<span class="kw-2">&amp;</span>param, <span class="kw-2">&amp;</span>commit, <span class="kw-2">&amp;</span>shares).unwrap();
-<a href=#509 id=509 data-nosnippet>509</a>        <span class="macro">assert_eq!</span>(proof.ns_index, <span class="number">1</span>);
-<a href=#510 id=510 data-nosnippet>510</a>        <span class="macro">assert!</span>(proof.verify(<span class="kw-2">&amp;</span>param, <span class="kw-2">&amp;</span>commit).unwrap().is_ok());
-<a href=#511 id=511 data-nosnippet>511</a>    }
-<a href=#512 id=512 data-nosnippet>512</a>}</code></pre></div></section></main></body></html>
+<a href=#502 id=502 data-nosnippet>502</a>            <span class="macro">assert!</span>(
+<a href=#503 id=503 data-nosnippet>503</a>                NsAvidMScheme::proof_of_incorrect_encoding_for_namespace(
+<a href=#504 id=504 data-nosnippet>504</a>                    <span class="kw-2">&amp;</span>param, ns_index, <span class="kw-2">&amp;</span>commit, <span class="kw-2">&amp;</span>shares
+<a href=#505 id=505 data-nosnippet>505</a>                )
+<a href=#506 id=506 data-nosnippet>506</a>                .is_err()
+<a href=#507 id=507 data-nosnippet>507</a>            );
+<a href=#508 id=508 data-nosnippet>508</a>        }
+<a href=#509 id=509 data-nosnippet>509</a>
+<a href=#510 id=510 data-nosnippet>510</a>        <span class="kw">let </span>proof = NsAvidMScheme::proof_of_incorrect_encoding(<span class="kw-2">&amp;</span>param, <span class="kw-2">&amp;</span>commit, <span class="kw-2">&amp;</span>shares).unwrap();
+<a href=#511 id=511 data-nosnippet>511</a>        <span class="macro">assert_eq!</span>(proof.ns_index, <span class="number">1</span>);
+<a href=#512 id=512 data-nosnippet>512</a>        <span class="macro">assert!</span>(proof.verify(<span class="kw-2">&amp;</span>param, <span class="kw-2">&amp;</span>commit).unwrap().is_ok());
+<a href=#513 id=513 data-nosnippet>513</a>    }
+<a href=#514 id=514 data-nosnippet>514</a>
+<a href=#515 id=515 data-nosnippet>515</a>    <span class="attr">#[test]
+<a href=#516 id=516 data-nosnippet>516</a>    </span><span class="kw">fn </span>test_bad_encoding_proof_rejects_boundary_index() {
+<a href=#517 id=517 data-nosnippet>517</a>        <span class="comment">// Regression test: proof_of_incorrect_encoding must reject shares with
+<a href=#518 id=518 data-nosnippet>518</a>        // index == total_weights (off-by-one, previously used `&gt;` instead of `&gt;=`).
+<a href=#519 id=519 data-nosnippet>519</a>        </span><span class="kw">let </span>param = AvidMScheme::setup(<span class="number">3usize</span>, <span class="number">6usize</span>).unwrap();
+<a href=#520 id=520 data-nosnippet>520</a>        <span class="kw">let </span>payload = [<span class="number">1u8</span>; <span class="number">50</span>];
+<a href=#521 id=521 data-nosnippet>521</a>        <span class="kw">let </span>weights = [<span class="number">1u32</span>; <span class="number">6</span>];
+<a href=#522 id=522 data-nosnippet>522</a>        <span class="kw">let </span>(commit, shares) = AvidMScheme::disperse(<span class="kw-2">&amp;</span>param, <span class="kw-2">&amp;</span>weights, <span class="kw-2">&amp;</span>payload).unwrap();
+<a href=#523 id=523 data-nosnippet>523</a>
+<a href=#524 id=524 data-nosnippet>524</a>        <span class="comment">// Construct a share whose range.end == total_weights (last valid share).
+<a href=#525 id=525 data-nosnippet>525</a>        // This should succeed since range 5..6 means index 5 which is &lt; 6.
+<a href=#526 id=526 data-nosnippet>526</a>        </span><span class="kw">let </span>last_share = <span class="kw-2">&amp;</span>shares[<span class="number">5</span>];
+<a href=#527 id=527 data-nosnippet>527</a>        <span class="macro">assert_eq!</span>(last_share.content.range.end, param.total_weights);
+<a href=#528 id=528 data-nosnippet>528</a>        <span class="macro">assert!</span>(
+<a href=#529 id=529 data-nosnippet>529</a>            AvidMScheme::verify_internal(<span class="kw-2">&amp;</span>param, <span class="kw-2">&amp;</span>commit, <span class="kw-2">&amp;</span>last_share.content)
+<a href=#530 id=530 data-nosnippet>530</a>                .is_ok_and(|r| r.is_ok())
+<a href=#531 id=531 data-nosnippet>531</a>        );
+<a href=#532 id=532 data-nosnippet>532</a>
+<a href=#533 id=533 data-nosnippet>533</a>        <span class="comment">// Construct a fake share with range.end &gt; total_weights. This must be rejected.
+<a href=#534 id=534 data-nosnippet>534</a>        </span><span class="kw">let </span><span class="kw-2">mut </span>bad_share = shares[<span class="number">5</span>].clone();
+<a href=#535 id=535 data-nosnippet>535</a>        bad_share.content.range = param.total_weights..param.total_weights + <span class="number">1</span>;
+<a href=#536 id=536 data-nosnippet>536</a>        <span class="macro">assert!</span>(
+<a href=#537 id=537 data-nosnippet>537</a>            AvidMScheme::proof_of_incorrect_encoding(<span class="kw-2">&amp;</span>param, <span class="kw-2">&amp;</span>commit, <span class="kw-2">&amp;</span>[bad_share]).is_err(),
+<a href=#538 id=538 data-nosnippet>538</a>            <span class="string">"proof_of_incorrect_encoding must reject share with index &gt;= total_weights"
+<a href=#539 id=539 data-nosnippet>539</a>        </span>);
+<a href=#540 id=540 data-nosnippet>540</a>    }
+<a href=#541 id=541 data-nosnippet>541</a>}
+</code></pre></div></section></main></body></html>

@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"constant":["RETRY_DELAY"],"enum":["ActionKind","StorageOutput"],"struct":["Storage","StorageMetrics"],"trait":["NewProtocolStorage"]};

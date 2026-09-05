@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"fn":["finish_measurement","ignore_measurement"],"struct":["Measurement","Metrics"]};

@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `request-response/src/message.rs`."><title>message.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Italic-81dc35de.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-MediumItalic-ccf7e434.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2"href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../static.files/rustdoc-e56847b5.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="request_response" data-themes="" data-resource-suffix="" data-rustdoc-version="1.91.0 (f8297e351 2025-10-28)" data-channel="1.91.0" data-search-js="search-e256b49e.js" data-stringdex-js="stringdex-c3e638e9.js" data-settings-js="settings-c38705f0.js" ><script src="../../static.files/storage-e2aeef58.js"></script><script defer src="../../static.files/src-script-813739b1.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-6dc2a7f3.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-263c88ec.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-eab170b8.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-044be391.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer" title="Drag to resize sidebar"></div><main><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">request_response/</div>message.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap digits-3"><pre class="rust"><code><a href=#1 id=1 data-nosnippet>1</a><span class="kw">use </span>std::{
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `crates/request-response/src/message.rs`."><title>message.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Italic-81dc35de.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-MediumItalic-ccf7e434.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2"href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../static.files/rustdoc-17e0aaed.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="request_response" data-themes="" data-resource-suffix="" data-rustdoc-version="1.97.1 (8bab26f4f 2026-07-14)" data-channel="1.97.1" data-search-js="search-fd9372ac.js" data-stringdex-js="stringdex-2da4960a.js" data-settings-js="settings-170eb4bf.js" ><script src="../../static.files/storage-41dd4d93.js"></script><script defer src="../../static.files/src-script-813739b1.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-fcd733ba.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-f7c3ffd8.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-eab170b8.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-044be391.svg"></head><body class="rustdoc src"><a class="skip-main-content" href="#main-content">Skip to main content</a><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer" title="Drag to resize sidebar"></div><main><section id="main-content" class="content" tabindex="-1"><div class="main-heading"><h1><div class="sub-heading">request_response/</div>message.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap digits-3"><pre class="rust"><code><a href=#1 id=1 data-nosnippet>1</a><span class="kw">use </span>std::{
 <a href=#2 id=2 data-nosnippet>2</a>    io::{Cursor, Read, Write},
 <a href=#3 id=3 data-nosnippet>3</a>    time::{Duration, SystemTime, UNIX_EPOCH},
 <a href=#4 id=4 data-nosnippet>4</a>};
@@ -7,7 +7,7 @@
 <a href=#7 id=7 data-nosnippet>7</a><span class="kw">use </span>byteorder::{LittleEndian, ReadBytesExt, WriteBytesExt};
 <a href=#8 id=8 data-nosnippet>8</a><span class="kw">use </span>hotshot_types::traits::signature_key::SignatureKey;
 <a href=#9 id=9 data-nosnippet>9</a>
-<a href=#10 id=10 data-nosnippet>10</a><span class="kw">use super</span>::{request::Request, RequestHash, Serializable};
+<a href=#10 id=10 data-nosnippet>10</a><span class="kw">use super</span>::{RequestHash, Serializable, request::Request};
 <a href=#11 id=11 data-nosnippet>11</a>
 <a href=#12 id=12 data-nosnippet>12</a><span class="doccomment">/// The outer message type for the request-response protocol. Can either be a request or a response
 <a href=#13 id=13 data-nosnippet>13</a></span><span class="attr">#[derive(Clone, Debug)]
@@ -97,7 +97,7 @@
 <a href=#97 id=97 data-nosnippet>97</a>    ///
 <a href=#98 id=98 data-nosnippet>98</a>    /// # Panics
 <a href=#99 id=99 data-nosnippet>99</a>    /// - If time is not monotonic
-<a href=#100 id=100 data-nosnippet>100</a>    </span><span class="kw">pub async fn </span>validate(<span class="kw-2">&amp;</span><span class="self">self</span>, incoming_request_ttl: Duration) -&gt; <span class="prelude-ty">Result</span>&lt;()&gt; {
+<a href=#100 id=100 data-nosnippet>100</a>    </span><span class="kw">pub fn </span>validate(<span class="kw-2">&amp;</span><span class="self">self</span>, incoming_request_ttl: Duration) -&gt; <span class="prelude-ty">Result</span>&lt;()&gt; {
 <a href=#101 id=101 data-nosnippet>101</a>        <span class="comment">// Make sure the request is not too old
 <a href=#102 id=102 data-nosnippet>102</a>        </span><span class="kw">if </span><span class="self">self
 <a href=#103 id=103 data-nosnippet>103</a>            </span>.timestamp_unix_seconds
@@ -123,8 +123,8 @@
 <a href=#123 id=123 data-nosnippet>123</a>        }
 <a href=#124 id=124 data-nosnippet>124</a>
 <a href=#125 id=125 data-nosnippet>125</a>        <span class="comment">// Call the request's application-specific validation function
-<a href=#126 id=126 data-nosnippet>126</a>        </span><span class="self">self</span>.request.validate().<span class="kw">await
-<a href=#127 id=127 data-nosnippet>127</a>    </span>}
+<a href=#126 id=126 data-nosnippet>126</a>        </span><span class="self">self</span>.request.validate()
+<a href=#127 id=127 data-nosnippet>127</a>    }
 <a href=#128 id=128 data-nosnippet>128</a>}
 <a href=#129 id=129 data-nosnippet>129</a>
 <a href=#130 id=130 data-nosnippet>130</a><span class="doccomment">/// A blanket implementation of the [`Serializable`] trait for any [`Message`]
@@ -275,66 +275,66 @@
 <a href=#275 id=275 data-nosnippet>275</a><span class="doccomment">/// A helper function to read a length-prefixed value from a reader
 <a href=#276 id=276 data-nosnippet>276</a></span><span class="kw">fn </span>read_length_prefixed&lt;R: Read&gt;(reader: <span class="kw-2">&amp;mut </span>R) -&gt; <span class="prelude-ty">Result</span>&lt;Vec&lt;u8&gt;&gt; {
 <a href=#277 id=277 data-nosnippet>277</a>    <span class="comment">// Read the length of the value as a u32
-<a href=#278 id=278 data-nosnippet>278</a>    </span><span class="kw">let </span>length = reader.read_u32::&lt;LittleEndian&gt;()<span class="question-mark">?</span>;
+<a href=#278 id=278 data-nosnippet>278</a>    </span><span class="kw">let </span>length = u64::from(reader.read_u32::&lt;LittleEndian&gt;()<span class="question-mark">?</span>);
 <a href=#279 id=279 data-nosnippet>279</a>
-<a href=#280 id=280 data-nosnippet>280</a>    <span class="comment">// Read the value
-<a href=#281 id=281 data-nosnippet>281</a>    </span><span class="kw">let </span><span class="kw-2">mut </span>value = <span class="macro">vec!</span>[<span class="number">0</span>; length <span class="kw">as </span>usize];
-<a href=#282 id=282 data-nosnippet>282</a>    reader.read_exact(<span class="kw-2">&amp;mut </span>value)<span class="question-mark">?</span>;
-<a href=#283 id=283 data-nosnippet>283</a>    <span class="prelude-val">Ok</span>(value)
-<a href=#284 id=284 data-nosnippet>284</a>}
-<a href=#285 id=285 data-nosnippet>285</a>
-<a href=#286 id=286 data-nosnippet>286</a><span class="doccomment">/// A helper function to read to the end of the reader
-<a href=#287 id=287 data-nosnippet>287</a></span><span class="kw">fn </span>read_to_end&lt;R: Read&gt;(reader: <span class="kw-2">&amp;mut </span>R) -&gt; <span class="prelude-ty">Result</span>&lt;Vec&lt;u8&gt;&gt; {
-<a href=#288 id=288 data-nosnippet>288</a>    <span class="kw">let </span><span class="kw-2">mut </span>value = Vec::new();
-<a href=#289 id=289 data-nosnippet>289</a>    reader.read_to_end(<span class="kw-2">&amp;mut </span>value)<span class="question-mark">?</span>;
-<a href=#290 id=290 data-nosnippet>290</a>    <span class="prelude-val">Ok</span>(value)
-<a href=#291 id=291 data-nosnippet>291</a>}
-<a href=#292 id=292 data-nosnippet>292</a>
-<a href=#293 id=293 data-nosnippet>293</a><span class="attr">#[cfg(test)]
-<a href=#294 id=294 data-nosnippet>294</a></span><span class="kw">mod </span>tests {
-<a href=#295 id=295 data-nosnippet>295</a>    <span class="kw">use </span>async_trait::async_trait;
-<a href=#296 id=296 data-nosnippet>296</a>    <span class="kw">use </span>hotshot_types::signature_key::BLSPubKey;
-<a href=#297 id=297 data-nosnippet>297</a>    <span class="kw">use </span>rand::Rng;
-<a href=#298 id=298 data-nosnippet>298</a>
-<a href=#299 id=299 data-nosnippet>299</a>    <span class="kw">use super</span>::<span class="kw-2">*</span>;
-<a href=#300 id=300 data-nosnippet>300</a>
-<a href=#301 id=301 data-nosnippet>301</a>    <span class="comment">// A testing implementation of the [`Serializable`] trait for [`Vec&lt;u8&gt;`]
-<a href=#302 id=302 data-nosnippet>302</a>    </span><span class="kw">impl </span>Serializable <span class="kw">for </span>Vec&lt;u8&gt; {
-<a href=#303 id=303 data-nosnippet>303</a>        <span class="kw">fn </span>to_bytes(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;Vec&lt;u8&gt;&gt; {
-<a href=#304 id=304 data-nosnippet>304</a>            <span class="prelude-val">Ok</span>(<span class="self">self</span>.clone())
-<a href=#305 id=305 data-nosnippet>305</a>        }
-<a href=#306 id=306 data-nosnippet>306</a>        <span class="kw">fn </span>from_bytes(bytes: <span class="kw-2">&amp;</span>[u8]) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>&gt; {
-<a href=#307 id=307 data-nosnippet>307</a>            <span class="prelude-val">Ok</span>(bytes.to_vec())
-<a href=#308 id=308 data-nosnippet>308</a>        }
-<a href=#309 id=309 data-nosnippet>309</a>    }
-<a href=#310 id=310 data-nosnippet>310</a>
-<a href=#311 id=311 data-nosnippet>311</a>    <span class="doccomment">/// A testing implementation of the [`Request`] trait for [`Vec&lt;u8&gt;`]
-<a href=#312 id=312 data-nosnippet>312</a>    </span><span class="attr">#[async_trait]
+<a href=#280 id=280 data-nosnippet>280</a>    <span class="kw">let </span><span class="kw-2">mut </span>value = Vec::with_capacity(length.min(<span class="number">64 </span>* <span class="number">1024</span>) <span class="kw">as </span>usize);
+<a href=#281 id=281 data-nosnippet>281</a>    <span class="kw">let </span>read = reader.take(length).read_to_end(<span class="kw-2">&amp;mut </span>value)<span class="question-mark">?</span>;
+<a href=#282 id=282 data-nosnippet>282</a>    <span class="kw">if </span>read <span class="kw">as </span>u64 != length {
+<a href=#283 id=283 data-nosnippet>283</a>        <span class="kw">return </span><span class="prelude-val">Err</span>(<span class="macro">anyhow::anyhow!</span>(<span class="string">"length prefix exceeds available data"</span>));
+<a href=#284 id=284 data-nosnippet>284</a>    }
+<a href=#285 id=285 data-nosnippet>285</a>    <span class="prelude-val">Ok</span>(value)
+<a href=#286 id=286 data-nosnippet>286</a>}
+<a href=#287 id=287 data-nosnippet>287</a>
+<a href=#288 id=288 data-nosnippet>288</a><span class="doccomment">/// A helper function to read to the end of the reader
+<a href=#289 id=289 data-nosnippet>289</a></span><span class="kw">fn </span>read_to_end&lt;R: Read&gt;(reader: <span class="kw-2">&amp;mut </span>R) -&gt; <span class="prelude-ty">Result</span>&lt;Vec&lt;u8&gt;&gt; {
+<a href=#290 id=290 data-nosnippet>290</a>    <span class="kw">let </span><span class="kw-2">mut </span>value = Vec::new();
+<a href=#291 id=291 data-nosnippet>291</a>    reader.read_to_end(<span class="kw-2">&amp;mut </span>value)<span class="question-mark">?</span>;
+<a href=#292 id=292 data-nosnippet>292</a>    <span class="prelude-val">Ok</span>(value)
+<a href=#293 id=293 data-nosnippet>293</a>}
+<a href=#294 id=294 data-nosnippet>294</a>
+<a href=#295 id=295 data-nosnippet>295</a><span class="attr">#[cfg(test)]
+<a href=#296 id=296 data-nosnippet>296</a></span><span class="kw">mod </span>tests {
+<a href=#297 id=297 data-nosnippet>297</a>    <span class="kw">use </span>hotshot_types::signature_key::BLSPubKey;
+<a href=#298 id=298 data-nosnippet>298</a>    <span class="kw">use </span>rand::Rng;
+<a href=#299 id=299 data-nosnippet>299</a>
+<a href=#300 id=300 data-nosnippet>300</a>    <span class="kw">use super</span>::<span class="kw-2">*</span>;
+<a href=#301 id=301 data-nosnippet>301</a>
+<a href=#302 id=302 data-nosnippet>302</a>    <span class="comment">// A testing implementation of the [`Serializable`] trait for [`Vec&lt;u8&gt;`]
+<a href=#303 id=303 data-nosnippet>303</a>    </span><span class="kw">impl </span>Serializable <span class="kw">for </span>Vec&lt;u8&gt; {
+<a href=#304 id=304 data-nosnippet>304</a>        <span class="kw">fn </span>to_bytes(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;Vec&lt;u8&gt;&gt; {
+<a href=#305 id=305 data-nosnippet>305</a>            <span class="prelude-val">Ok</span>(<span class="self">self</span>.clone())
+<a href=#306 id=306 data-nosnippet>306</a>        }
+<a href=#307 id=307 data-nosnippet>307</a>        <span class="kw">fn </span>from_bytes(bytes: <span class="kw-2">&amp;</span>[u8]) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>&gt; {
+<a href=#308 id=308 data-nosnippet>308</a>            <span class="prelude-val">Ok</span>(bytes.to_vec())
+<a href=#309 id=309 data-nosnippet>309</a>        }
+<a href=#310 id=310 data-nosnippet>310</a>    }
+<a href=#311 id=311 data-nosnippet>311</a>
+<a href=#312 id=312 data-nosnippet>312</a>    <span class="doccomment">/// A testing implementation of the [`Request`] trait for [`Vec&lt;u8&gt;`]
 <a href=#313 id=313 data-nosnippet>313</a>    </span><span class="kw">impl </span>Request <span class="kw">for </span>Vec&lt;u8&gt; {
 <a href=#314 id=314 data-nosnippet>314</a>        <span class="kw">type </span>Response = Vec&lt;u8&gt;;
 <a href=#315 id=315 data-nosnippet>315</a>
-<a href=#316 id=316 data-nosnippet>316</a>        <span class="kw">async fn </span>validate(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;()&gt; {
+<a href=#316 id=316 data-nosnippet>316</a>        <span class="kw">fn </span>validate(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;()&gt; {
 <a href=#317 id=317 data-nosnippet>317</a>            <span class="prelude-val">Ok</span>(())
 <a href=#318 id=318 data-nosnippet>318</a>        }
 <a href=#319 id=319 data-nosnippet>319</a>    }
 <a href=#320 id=320 data-nosnippet>320</a>
 <a href=#321 id=321 data-nosnippet>321</a>    <span class="doccomment">/// Tests that properly signed requests are validated correctly and that invalid requests
 <a href=#322 id=322 data-nosnippet>322</a>    /// (bad timestamp/signature) are rejected
-<a href=#323 id=323 data-nosnippet>323</a>    </span><span class="attr">#[tokio::test]
-<a href=#324 id=324 data-nosnippet>324</a>    </span><span class="kw">async fn </span>test_request_validation() {
+<a href=#323 id=323 data-nosnippet>323</a>    </span><span class="attr">#[test]
+<a href=#324 id=324 data-nosnippet>324</a>    </span><span class="kw">fn </span>test_request_validation() {
 <a href=#325 id=325 data-nosnippet>325</a>        <span class="comment">// Create some RNG
 <a href=#326 id=326 data-nosnippet>326</a>        </span><span class="kw">let </span><span class="kw-2">mut </span>rng = rand::thread_rng();
 <a href=#327 id=327 data-nosnippet>327</a>
 <a href=#328 id=328 data-nosnippet>328</a>        <span class="kw">for _ in </span><span class="number">0</span>..<span class="number">100 </span>{
 <a href=#329 id=329 data-nosnippet>329</a>            <span class="comment">// Create a random keypair
 <a href=#330 id=330 data-nosnippet>330</a>            </span><span class="kw">let </span>(public_key, private_key) =
-<a href=#331 id=331 data-nosnippet>331</a>                BLSPubKey::generated_from_seed_indexed([<span class="number">1</span>; <span class="number">32</span>], rng.gen::&lt;u64&gt;());
+<a href=#331 id=331 data-nosnippet>331</a>                BLSPubKey::generated_from_seed_indexed([<span class="number">1</span>; <span class="number">32</span>], rng.r#gen::&lt;u64&gt;());
 <a href=#332 id=332 data-nosnippet>332</a>
 <a href=#333 id=333 data-nosnippet>333</a>            <span class="comment">// Create a valid request with some random content
 <a href=#334 id=334 data-nosnippet>334</a>            </span><span class="kw">let </span><span class="kw-2">mut </span>request = RequestMessage::new_signed(
 <a href=#335 id=335 data-nosnippet>335</a>                <span class="kw-2">&amp;</span>public_key,
 <a href=#336 id=336 data-nosnippet>336</a>                <span class="kw-2">&amp;</span>private_key,
-<a href=#337 id=337 data-nosnippet>337</a>                <span class="kw-2">&amp;</span><span class="macro">vec!</span>[rng.gen::&lt;u8&gt;(); rng.gen_range(<span class="number">1</span>..<span class="number">10000</span>)],
+<a href=#337 id=337 data-nosnippet>337</a>                <span class="kw-2">&amp;</span><span class="macro">vec!</span>[rng.r#gen::&lt;u8&gt;(); rng.gen_range(<span class="number">1</span>..<span class="number">10000</span>)],
 <a href=#338 id=338 data-nosnippet>338</a>            )
 <a href=#339 id=339 data-nosnippet>339</a>            .expect(<span class="string">"Failed to create signed request"</span>);
 <a href=#340 id=340 data-nosnippet>340</a>
@@ -367,7 +367,7 @@
 <a href=#367 id=367 data-nosnippet>367</a>            };
 <a href=#368 id=368 data-nosnippet>368</a>
 <a href=#369 id=369 data-nosnippet>369</a>            <span class="comment">// Validate the request
-<a href=#370 id=370 data-nosnippet>370</a>            </span><span class="macro">assert_eq!</span>(request.validate(request_ttl).<span class="kw">await</span>.is_ok(), should_be_valid);
+<a href=#370 id=370 data-nosnippet>370</a>            </span><span class="macro">assert_eq!</span>(request.validate(request_ttl).is_ok(), should_be_valid);
 <a href=#371 id=371 data-nosnippet>371</a>        }
 <a href=#372 id=372 data-nosnippet>372</a>    }
 <a href=#373 id=373 data-nosnippet>373</a>
@@ -379,16 +379,16 @@
 <a href=#379 id=379 data-nosnippet>379</a>            </span><span class="kw">let </span><span class="kw-2">mut </span>rng = rand::thread_rng();
 <a href=#380 id=380 data-nosnippet>380</a>
 <a href=#381 id=381 data-nosnippet>381</a>            <span class="comment">// Generate a random message type
-<a href=#382 id=382 data-nosnippet>382</a>            </span><span class="kw">let </span>is_request = rng.gen::&lt;u8&gt;() % <span class="number">2 </span>== <span class="number">0</span>;
+<a href=#382 id=382 data-nosnippet>382</a>            </span><span class="kw">let </span>is_request = rng.r#gen::&lt;u8&gt;() % <span class="number">2 </span>== <span class="number">0</span>;
 <a href=#383 id=383 data-nosnippet>383</a>
 <a href=#384 id=384 data-nosnippet>384</a>            <span class="comment">// The request content will be a random vector of bytes
-<a href=#385 id=385 data-nosnippet>385</a>            </span><span class="kw">let </span>request = <span class="macro">vec!</span>[rng.gen::&lt;u8&gt;(); rng.gen_range(<span class="number">0</span>..<span class="number">10000</span>)];
+<a href=#385 id=385 data-nosnippet>385</a>            </span><span class="kw">let </span>request = <span class="macro">vec!</span>[rng.r#gen::&lt;u8&gt;(); rng.gen_range(<span class="number">0</span>..<span class="number">10000</span>)];
 <a href=#386 id=386 data-nosnippet>386</a>
 <a href=#387 id=387 data-nosnippet>387</a>            <span class="comment">// Create a message
 <a href=#388 id=388 data-nosnippet>388</a>            </span><span class="kw">let </span>message = <span class="kw">if </span>is_request {
 <a href=#389 id=389 data-nosnippet>389</a>                <span class="comment">// Create a random keypair
 <a href=#390 id=390 data-nosnippet>390</a>                </span><span class="kw">let </span>(public_key, private_key) =
-<a href=#391 id=391 data-nosnippet>391</a>                    BLSPubKey::generated_from_seed_indexed([<span class="number">1</span>; <span class="number">32</span>], rng.gen::&lt;u64&gt;());
+<a href=#391 id=391 data-nosnippet>391</a>                    BLSPubKey::generated_from_seed_indexed([<span class="number">1</span>; <span class="number">32</span>], rng.r#gen::&lt;u64&gt;());
 <a href=#392 id=392 data-nosnippet>392</a>
 <a href=#393 id=393 data-nosnippet>393</a>                <span class="comment">// Create a new signed request
 <a href=#394 id=394 data-nosnippet>394</a>                </span><span class="kw">let </span>request = RequestMessage::new_signed(<span class="kw-2">&amp;</span>public_key, <span class="kw-2">&amp;</span>private_key, <span class="kw-2">&amp;</span>request)
@@ -399,7 +399,7 @@
 <a href=#399 id=399 data-nosnippet>399</a>                <span class="comment">// Create a response message
 <a href=#400 id=400 data-nosnippet>400</a>                </span>Message::Response(ResponseMessage {
 <a href=#401 id=401 data-nosnippet>401</a>                    request_hash: blake3::hash(<span class="kw-2">&amp;</span>request),
-<a href=#402 id=402 data-nosnippet>402</a>                    response: <span class="macro">vec!</span>[rng.gen::&lt;u8&gt;(); rng.gen_range(<span class="number">0</span>..<span class="number">10000</span>)],
+<a href=#402 id=402 data-nosnippet>402</a>                    response: <span class="macro">vec!</span>[rng.r#gen::&lt;u8&gt;(); rng.gen_range(<span class="number">0</span>..<span class="number">10000</span>)],
 <a href=#403 id=403 data-nosnippet>403</a>                })
 <a href=#404 id=404 data-nosnippet>404</a>            };
 <a href=#405 id=405 data-nosnippet>405</a>
@@ -426,7 +426,7 @@
 <a href=#426 id=426 data-nosnippet>426</a>            </span><span class="kw">let </span><span class="kw-2">mut </span>bytes = Vec::new();
 <a href=#427 id=427 data-nosnippet>427</a>
 <a href=#428 id=428 data-nosnippet>428</a>            <span class="comment">// Generate the value to test over
-<a href=#429 id=429 data-nosnippet>429</a>            </span><span class="kw">let </span>value = <span class="macro">vec!</span>[rng.gen::&lt;u8&gt;(); rng.gen_range(<span class="number">0</span>..<span class="number">10000</span>)];
+<a href=#429 id=429 data-nosnippet>429</a>            </span><span class="kw">let </span>value = <span class="macro">vec!</span>[rng.r#gen::&lt;u8&gt;(); rng.gen_range(<span class="number">0</span>..<span class="number">10000</span>)];
 <a href=#430 id=430 data-nosnippet>430</a>
 <a href=#431 id=431 data-nosnippet>431</a>            <span class="comment">// Write the length-prefixed value
 <a href=#432 id=432 data-nosnippet>432</a>            </span>write_length_prefixed(<span class="kw-2">&amp;mut </span>bytes, <span class="kw-2">&amp;</span>value).unwrap();
@@ -439,4 +439,5 @@
 <a href=#439 id=439 data-nosnippet>439</a>            <span class="macro">assert_eq!</span>(value, value);
 <a href=#440 id=440 data-nosnippet>440</a>        }
 <a href=#441 id=441 data-nosnippet>441</a>    }
-<a href=#442 id=442 data-nosnippet>442</a>}</code></pre></div></section></main></body></html>
+<a href=#442 id=442 data-nosnippet>442</a>}
+</code></pre></div></section></main></body></html>

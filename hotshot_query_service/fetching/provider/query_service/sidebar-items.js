@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"struct":["QueryServiceProvider"]};
+window.SIDEBAR_ITEMS = {"struct":["TrustedQueryServiceProvider"]};

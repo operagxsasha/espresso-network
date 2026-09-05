@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"mod":["peer_builder"],"struct":["Budget","Peer","PeerBuilder"],"type":["NoiseBuf","Result"]};

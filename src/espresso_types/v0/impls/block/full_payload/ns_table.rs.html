@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `types/src/v0/impls/block/full_payload/ns_table.rs`."><title>ns_table.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Italic-81dc35de.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-MediumItalic-ccf7e434.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2"href="../../../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../../../../../static.files/rustdoc-e56847b5.css"><meta name="rustdoc-vars" data-root-path="../../../../../../" data-static-root-path="../../../../../../static.files/" data-current-crate="espresso_types" data-themes="" data-resource-suffix="" data-rustdoc-version="1.91.0 (f8297e351 2025-10-28)" data-channel="1.91.0" data-search-js="search-e256b49e.js" data-stringdex-js="stringdex-c3e638e9.js" data-settings-js="settings-c38705f0.js" ><script src="../../../../../../static.files/storage-e2aeef58.js"></script><script defer src="../../../../../../static.files/src-script-813739b1.js"></script><script defer src="../../../../../../src-files.js"></script><script defer src="../../../../../../static.files/main-6dc2a7f3.js"></script><noscript><link rel="stylesheet" href="../../../../../../static.files/noscript-263c88ec.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../../static.files/favicon-32x32-eab170b8.png"><link rel="icon" type="image/svg+xml" href="../../../../../../static.files/favicon-044be391.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer" title="Drag to resize sidebar"></div><main><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">espresso_types/v0/impls/block/full_payload/</div>ns_table.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap digits-3"><pre class="rust"><code><a href=#1 id=1 data-nosnippet>1</a><span class="doccomment">//! Types related to a namespace table.
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `crates/espresso/types/src/v0/impls/block/full_payload/ns_table.rs`."><title>ns_table.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Italic-81dc35de.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-MediumItalic-ccf7e434.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2"href="../../../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../../../../../static.files/rustdoc-17e0aaed.css"><meta name="rustdoc-vars" data-root-path="../../../../../../" data-static-root-path="../../../../../../static.files/" data-current-crate="espresso_types" data-themes="" data-resource-suffix="" data-rustdoc-version="1.97.1 (8bab26f4f 2026-07-14)" data-channel="1.97.1" data-search-js="search-fd9372ac.js" data-stringdex-js="stringdex-2da4960a.js" data-settings-js="settings-170eb4bf.js" ><script src="../../../../../../static.files/storage-41dd4d93.js"></script><script defer src="../../../../../../static.files/src-script-813739b1.js"></script><script defer src="../../../../../../src-files.js"></script><script defer src="../../../../../../static.files/main-fcd733ba.js"></script><noscript><link rel="stylesheet" href="../../../../../../static.files/noscript-f7c3ffd8.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../../static.files/favicon-32x32-eab170b8.png"><link rel="icon" type="image/svg+xml" href="../../../../../../static.files/favicon-044be391.svg"></head><body class="rustdoc src"><a class="skip-main-content" href="#main-content">Skip to main content</a><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer" title="Drag to resize sidebar"></div><main><section id="main-content" class="content" tabindex="-1"><div class="main-heading"><h1><div class="sub-heading">espresso_types/v0/impls/block/full_payload/</div>ns_table.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap digits-3"><pre class="rust"><code><a href=#1 id=1 data-nosnippet>1</a><span class="doccomment">//! Types related to a namespace table.
 <a href=#2 id=2 data-nosnippet>2</a>//!
 <a href=#3 id=3 data-nosnippet>3</a>//! All code that needs to know the binary format of a namespace table is
 <a href=#4 id=4 data-nosnippet>4</a>//! restricted to this file.
@@ -9,14 +9,14 @@
 <a href=#9 id=9 data-nosnippet>9</a>
 <a href=#10 id=10 data-nosnippet>10</a><span class="kw">use </span>committable::{Commitment, Committable, RawCommitmentBuilder};
 <a href=#11 id=11 data-nosnippet>11</a><span class="kw">use </span>hotshot_types::traits::EncodeBytes;
-<a href=#12 id=12 data-nosnippet>12</a><span class="kw">use </span>serde::{de, Deserialize, Deserializer, Serialize, Serializer};
+<a href=#12 id=12 data-nosnippet>12</a><span class="kw">use </span>serde::{Deserialize, Deserializer, Serialize, Serializer, de};
 <a href=#13 id=13 data-nosnippet>13</a>
 <a href=#14 id=14 data-nosnippet>14</a><span class="kw">use crate</span>::{
-<a href=#15 id=15 data-nosnippet>15</a>    v0::impls::block::uint_bytes::{
-<a href=#16 id=16 data-nosnippet>16</a>        bytes_serde_impl, u32_from_bytes, u32_to_bytes, usize_from_bytes, usize_to_bytes,
-<a href=#17 id=17 data-nosnippet>17</a>    },
-<a href=#18 id=18 data-nosnippet>18</a>    NamespaceId, NsIndex, NsIter, NsPayloadRange, NsTable, NsTableBuilder, NsTableValidationError,
-<a href=#19 id=19 data-nosnippet>19</a>    NumNss, PayloadByteLen, NS_ID_BYTE_LEN, NS_OFFSET_BYTE_LEN, NUM_NSS_BYTE_LEN,
+<a href=#15 id=15 data-nosnippet>15</a>    NS_ID_BYTE_LEN, NS_OFFSET_BYTE_LEN, NUM_NSS_BYTE_LEN, NamespaceId, NsIndex, NsIter,
+<a href=#16 id=16 data-nosnippet>16</a>    NsPayloadRange, NsTable, NsTableBuilder, NsTableValidationError, NumNss, PayloadByteLen,
+<a href=#17 id=17 data-nosnippet>17</a>    v0::impls::block::uint_bytes::{
+<a href=#18 id=18 data-nosnippet>18</a>        bytes_serde_impl, u32_from_bytes, u32_to_bytes, usize_from_bytes, usize_to_bytes,
+<a href=#19 id=19 data-nosnippet>19</a>    },
 <a href=#20 id=20 data-nosnippet>20</a>};
 <a href=#21 id=21 data-nosnippet>21</a>
 <a href=#22 id=22 data-nosnippet>22</a><span class="comment">// Boilerplate: `#[serde(remote = "Self")]` allows invariant checking on
@@ -89,7 +89,7 @@
 <a href=#89 id=89 data-nosnippet>89</a>        <span class="kw">let </span>start = index.<span class="number">0 </span>* (NS_ID_BYTE_LEN + NS_OFFSET_BYTE_LEN) + NUM_NSS_BYTE_LEN;
 <a href=#90 id=90 data-nosnippet>90</a>
 <a href=#91 id=91 data-nosnippet>91</a>        <span class="comment">// TODO hack to deserialize `NamespaceId` from `NS_ID_BYTE_LEN` bytes
-<a href=#92 id=92 data-nosnippet>92</a>        // https://github.com/EspressoSystems/espresso-sequencer/issues/1574
+<a href=#92 id=92 data-nosnippet>92</a>        // https://github.com/EspressoSystems/espresso-network/issues/1574
 <a href=#93 id=93 data-nosnippet>93</a>        </span>NamespaceId::from(u32_from_bytes::&lt;NS_ID_BYTE_LEN&gt;(
 <a href=#94 id=94 data-nosnippet>94</a>            <span class="kw-2">&amp;</span><span class="self">self</span>.bytes[start..start + NS_ID_BYTE_LEN],
 <a href=#95 id=95 data-nosnippet>95</a>        ))
@@ -114,9 +114,9 @@
 <a href=#114 id=114 data-nosnippet>114</a>    /// 2. All offsets must increase monotonically. Offsets
 <a href=#115 id=115 data-nosnippet>115</a>    ///    must be nonzero. Namespace IDs must be unique.
 <a href=#116 id=116 data-nosnippet>116</a>    /// 3. Header consistent with byte length. (Obsolete after
-<a href=#117 id=117 data-nosnippet>117</a>    ///    &lt;https://github.com/EspressoSystems/espresso-sequencer/issues/1604&gt;.)
+<a href=#117 id=117 data-nosnippet>117</a>    ///    &lt;https://github.com/EspressoSystems/espresso-network/issues/1604&gt;.)
 <a href=#118 id=118 data-nosnippet>118</a>    /// 4. Final offset must equal `payload_byte_len`. (Obsolete after
-<a href=#119 id=119 data-nosnippet>119</a>    ///    &lt;https://github.com/EspressoSystems/espresso-sequencer/issues/1604&gt;.)
+<a href=#119 id=119 data-nosnippet>119</a>    ///    &lt;https://github.com/EspressoSystems/espresso-network/issues/1604&gt;.)
 <a href=#120 id=120 data-nosnippet>120</a>    ///    If the namespace table is empty then `payload_byte_len` must be 0.
 <a href=#121 id=121 data-nosnippet>121</a>    </span><span class="kw">pub fn </span>validate(
 <a href=#122 id=122 data-nosnippet>122</a>        <span class="kw-2">&amp;</span><span class="self">self</span>,
@@ -165,7 +165,7 @@
 <a href=#165 id=165 data-nosnippet>165</a>    /// QUANTITY IS NEVER USED. Instead use [`NsTable::len`].
 <a href=#166 id=166 data-nosnippet>166</a>    ///
 <a href=#167 id=167 data-nosnippet>167</a>    /// TODO Delete this method after
-<a href=#168 id=168 data-nosnippet>168</a>    /// &lt;https://github.com/EspressoSystems/espresso-sequencer/issues/1604&gt;
+<a href=#168 id=168 data-nosnippet>168</a>    /// &lt;https://github.com/EspressoSystems/espresso-network/issues/1604&gt;
 <a href=#169 id=169 data-nosnippet>169</a>    </span><span class="kw">fn </span>read_num_nss(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; usize {
 <a href=#170 id=170 data-nosnippet>170</a>        <span class="kw">let </span>num_nss_byte_len = NUM_NSS_BYTE_LEN.min(<span class="self">self</span>.bytes.len());
 <a href=#171 id=171 data-nosnippet>171</a>        usize_from_bytes::&lt;NUM_NSS_BYTE_LEN&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>.bytes[..num_nss_byte_len])
@@ -206,7 +206,7 @@
 <a href=#206 id=206 data-nosnippet>206</a>        <span class="comment">// Header must declare the correct number of namespaces
 <a href=#207 id=207 data-nosnippet>207</a>        //
 <a href=#208 id=208 data-nosnippet>208</a>        // TODO this check obsolete after
-<a href=#209 id=209 data-nosnippet>209</a>        // https://github.com/EspressoSystems/espresso-sequencer/issues/1604
+<a href=#209 id=209 data-nosnippet>209</a>        // https://github.com/EspressoSystems/espresso-network/issues/1604
 <a href=#210 id=210 data-nosnippet>210</a>        </span><span class="kw">if </span><span class="self">self</span>.len().<span class="number">0 </span>!= <span class="self">self</span>.read_num_nss() {
 <a href=#211 id=211 data-nosnippet>211</a>            <span class="kw">return </span><span class="prelude-val">Err</span>(InvalidHeader);
 <a href=#212 id=212 data-nosnippet>212</a>        }
@@ -340,4 +340,5 @@
 <a href=#340 id=340 data-nosnippet>340</a>}
 <a href=#341 id=341 data-nosnippet>341</a>
 <a href=#342 id=342 data-nosnippet>342</a><span class="attr">#[cfg(test)]
-<a href=#343 id=343 data-nosnippet>343</a></span><span class="kw">mod </span>test;</code></pre></div></section></main></body></html>
+<a href=#343 id=343 data-nosnippet>343</a></span><span class="kw">mod </span>test;
+</code></pre></div></section></main></body></html>

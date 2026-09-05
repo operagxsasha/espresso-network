@@ -1,5 +1,5 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `types/src/v0/utils.rs`."><title>utils.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Italic-81dc35de.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-MediumItalic-ccf7e434.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2"href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../../static.files/rustdoc-e56847b5.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="espresso_types" data-themes="" data-resource-suffix="" data-rustdoc-version="1.91.0 (f8297e351 2025-10-28)" data-channel="1.91.0" data-search-js="search-e256b49e.js" data-stringdex-js="stringdex-c3e638e9.js" data-settings-js="settings-c38705f0.js" ><script src="../../../static.files/storage-e2aeef58.js"></script><script defer src="../../../static.files/src-script-813739b1.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-6dc2a7f3.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-263c88ec.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-eab170b8.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-044be391.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer" title="Drag to resize sidebar"></div><main><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">espresso_types/v0/</div>utils.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap digits-3"><pre class="rust"><code><a href=#1 id=1 data-nosnippet>1</a><span class="kw">use </span>std::{
-<a href=#2 id=2 data-nosnippet>2</a>    cmp::{min, Ordering},
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `crates/espresso/types/src/v0/utils.rs`."><title>utils.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Italic-81dc35de.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-MediumItalic-ccf7e434.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2"href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../../static.files/rustdoc-17e0aaed.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="espresso_types" data-themes="" data-resource-suffix="" data-rustdoc-version="1.97.1 (8bab26f4f 2026-07-14)" data-channel="1.97.1" data-search-js="search-fd9372ac.js" data-stringdex-js="stringdex-2da4960a.js" data-settings-js="settings-170eb4bf.js" ><script src="../../../static.files/storage-41dd4d93.js"></script><script defer src="../../../static.files/src-script-813739b1.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-fcd733ba.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-f7c3ffd8.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-eab170b8.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-044be391.svg"></head><body class="rustdoc src"><a class="skip-main-content" href="#main-content">Skip to main content</a><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer" title="Drag to resize sidebar"></div><main><section id="main-content" class="content" tabindex="-1"><div class="main-heading"><h1><div class="sub-heading">espresso_types/v0/</div>utils.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap digits-3"><pre class="rust"><code><a href=#1 id=1 data-nosnippet>1</a><span class="kw">use </span>std::{
+<a href=#2 id=2 data-nosnippet>2</a>    cmp::{Ordering, min},
 <a href=#3 id=3 data-nosnippet>3</a>    fmt::{<span class="self">self</span>, Debug, Display, Formatter},
 <a href=#4 id=4 data-nosnippet>4</a>    num::ParseIntError,
 <a href=#5 id=5 data-nosnippet>5</a>    str::FromStr,
@@ -11,18 +11,18 @@
 <a href=#11 id=11 data-nosnippet>11</a><span class="kw">use </span>clap::Parser;
 <a href=#12 id=12 data-nosnippet>12</a><span class="kw">use </span>committable::Committable;
 <a href=#13 id=13 data-nosnippet>13</a><span class="kw">use </span>derive_more::{From, Into};
-<a href=#14 id=14 data-nosnippet>14</a><span class="kw">use </span>futures::future::BoxFuture;
-<a href=#15 id=15 data-nosnippet>15</a><span class="kw">use </span>hotshot_types::{
-<a href=#16 id=16 data-nosnippet>16</a>    consensus::CommitmentMap,
-<a href=#17 id=17 data-nosnippet>17</a>    data::{Leaf, Leaf2},
-<a href=#18 id=18 data-nosnippet>18</a>    traits::node_implementation::NodeType,
-<a href=#19 id=19 data-nosnippet>19</a>};
-<a href=#20 id=20 data-nosnippet>20</a><span class="kw">use </span>rand::Rng;
-<a href=#21 id=21 data-nosnippet>21</a><span class="kw">use </span>sequencer_utils::{impl_serde_from_string_or_integer, ser::FromStringOrInteger};
+<a href=#14 id=14 data-nosnippet>14</a><span class="kw">use </span>espresso_utils::{impl_serde_from_string_or_integer, ser::FromStringOrInteger};
+<a href=#15 id=15 data-nosnippet>15</a><span class="kw">use </span>futures::future::BoxFuture;
+<a href=#16 id=16 data-nosnippet>16</a><span class="kw">use </span>hotshot_types::{
+<a href=#17 id=17 data-nosnippet>17</a>    consensus::CommitmentMap,
+<a href=#18 id=18 data-nosnippet>18</a>    data::{Leaf, Leaf2},
+<a href=#19 id=19 data-nosnippet>19</a>    traits::node_implementation::NodeType,
+<a href=#20 id=20 data-nosnippet>20</a>};
+<a href=#21 id=21 data-nosnippet>21</a><span class="kw">use </span>rand::Rng;
 <a href=#22 id=22 data-nosnippet>22</a><span class="kw">use </span>serde::{Deserialize, Serialize};
 <a href=#23 id=23 data-nosnippet>23</a><span class="kw">use </span>thiserror::Error;
 <a href=#24 id=24 data-nosnippet>24</a><span class="kw">use </span>time::{
-<a href=#25 id=25 data-nosnippet>25</a>    format_description::well_known::Rfc3339 <span class="kw">as </span>TimestampFormat, macros::time, Date, OffsetDateTime,
+<a href=#25 id=25 data-nosnippet>25</a>    Date, OffsetDateTime, format_description::well_known::Rfc3339 <span class="kw">as </span>TimestampFormat, macros::time,
 <a href=#26 id=26 data-nosnippet>26</a>};
 <a href=#27 id=27 data-nosnippet>27</a><span class="kw">use </span>tokio::time::sleep;
 <a href=#28 id=28 data-nosnippet>28</a>
@@ -152,7 +152,7 @@
 <a href=#152 id=152 data-nosnippet>152</a>    </span>}
 <a href=#153 id=153 data-nosnippet>153</a>}
 <a href=#154 id=154 data-nosnippet>154</a>
-<a href=#155 id=155 data-nosnippet>155</a><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+<a href=#155 id=155 data-nosnippet>155</a><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
 <a href=#156 id=156 data-nosnippet>156</a></span><span class="kw">pub struct </span>Ratio {
 <a href=#157 id=157 data-nosnippet>157</a>    <span class="kw">pub </span>numerator: u64,
 <a href=#158 id=158 data-nosnippet>158</a>    <span class="kw">pub </span>denominator: u64,
@@ -238,12 +238,12 @@
 <a href=#238 id=238 data-nosnippet>238</a><span class="comment">// Exponential backoff jitter as a fraction of the backoff delay, (numerator, denominator).
 <a href=#239 id=239 data-nosnippet>239</a></span><span class="kw">pub const </span>BACKOFF_JITTER: (u64, u64) = (<span class="number">1</span>, <span class="number">10</span>);
 <a href=#240 id=240 data-nosnippet>240</a>
-<a href=#241 id=241 data-nosnippet>241</a><span class="attr">#[derive(Clone, Copy, Debug, Parser, PartialEq, Eq, PartialOrd, Ord)]
+<a href=#241 id=241 data-nosnippet>241</a><span class="attr">#[derive(Clone, Copy, Debug, Parser, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize)]
 <a href=#242 id=242 data-nosnippet>242</a></span><span class="kw">pub struct </span>BackoffParams {
 <a href=#243 id=243 data-nosnippet>243</a>    <span class="doccomment">/// Exponential backoff exponent.
 <a href=#244 id=244 data-nosnippet>244</a>    </span><span class="attr">#[clap(
 <a href=#245 id=245 data-nosnippet>245</a>        long = <span class="string">"catchup-backoff-factor"</span>,
-<a href=#246 id=246 data-nosnippet>246</a>        env = <span class="string">"ESPRESSO_SEQUENCER_CATCHUP_BACKOFF_FACTOR"</span>,
+<a href=#246 id=246 data-nosnippet>246</a>        env = <span class="string">"ESPRESSO_NODE_CATCHUP_BACKOFF_FACTOR"</span>,
 <a href=#247 id=247 data-nosnippet>247</a>        default_value = <span class="string">"4"
 <a href=#248 id=248 data-nosnippet>248</a>    </span>)]
 <a href=#249 id=249 data-nosnippet>249</a>    </span>factor: u32,
@@ -251,7 +251,7 @@
 <a href=#251 id=251 data-nosnippet>251</a>    <span class="doccomment">/// Exponential backoff base delay.
 <a href=#252 id=252 data-nosnippet>252</a>    </span><span class="attr">#[clap(
 <a href=#253 id=253 data-nosnippet>253</a>        long = <span class="string">"catchup-base-retry-delay"</span>,
-<a href=#254 id=254 data-nosnippet>254</a>        env = <span class="string">"ESPRESSO_SEQUENCER_CATCHUP_BASE_RETRY_DELAY"</span>,
+<a href=#254 id=254 data-nosnippet>254</a>        env = <span class="string">"ESPRESSO_NODE_CATCHUP_BASE_RETRY_DELAY"</span>,
 <a href=#255 id=255 data-nosnippet>255</a>        default_value = <span class="string">"200ms"</span>,
 <a href=#256 id=256 data-nosnippet>256</a>        value_parser = parse_duration
 <a href=#257 id=257 data-nosnippet>257</a>    )]
@@ -260,7 +260,7 @@
 <a href=#260 id=260 data-nosnippet>260</a>    <span class="doccomment">/// Exponential max delay.
 <a href=#261 id=261 data-nosnippet>261</a>    </span><span class="attr">#[clap(
 <a href=#262 id=262 data-nosnippet>262</a>        long = <span class="string">"catchup-max-retry-delay"</span>,
-<a href=#263 id=263 data-nosnippet>263</a>        env = <span class="string">"ESPRESSO_SEQUENCER_CATCHUP_MAX_RETRY_DELAY"</span>,
+<a href=#263 id=263 data-nosnippet>263</a>        env = <span class="string">"ESPRESSO_NODE_CATCHUP_MAX_RETRY_DELAY"</span>,
 <a href=#264 id=264 data-nosnippet>264</a>        default_value = <span class="string">"5s"</span>,
 <a href=#265 id=265 data-nosnippet>265</a>        value_parser = parse_duration
 <a href=#266 id=266 data-nosnippet>266</a>    )]
@@ -269,13 +269,13 @@
 <a href=#269 id=269 data-nosnippet>269</a>    <span class="doccomment">/// Exponential backoff jitter as a ratio of the backoff delay, numerator:denominator.
 <a href=#270 id=270 data-nosnippet>270</a>    </span><span class="attr">#[clap(
 <a href=#271 id=271 data-nosnippet>271</a>        long = <span class="string">"catchup-backoff-jitter"</span>,
-<a href=#272 id=272 data-nosnippet>272</a>        env = <span class="string">"ESPRESSO_SEQUENCER_CATCHUP_BACKOFF_JITTER"</span>,
+<a href=#272 id=272 data-nosnippet>272</a>        env = <span class="string">"ESPRESSO_NODE_CATCHUP_BACKOFF_JITTER"</span>,
 <a href=#273 id=273 data-nosnippet>273</a>        default_value = <span class="string">"1:10"
 <a href=#274 id=274 data-nosnippet>274</a>    </span>)]
 <a href=#275 id=275 data-nosnippet>275</a>    </span>jitter: Ratio,
 <a href=#276 id=276 data-nosnippet>276</a>
 <a href=#277 id=277 data-nosnippet>277</a>    <span class="doccomment">/// Disable retries and just fail after one failed attempt.
-<a href=#278 id=278 data-nosnippet>278</a>    </span><span class="attr">#[clap(short, long, env = <span class="string">"ESPRESSO_SEQUENCER_CATCHUP_BACKOFF_DISABLE"</span>)]
+<a href=#278 id=278 data-nosnippet>278</a>    </span><span class="attr">#[clap(short, long, env = <span class="string">"ESPRESSO_NODE_CATCHUP_BACKOFF_DISABLE"</span>)]
 <a href=#279 id=279 data-nosnippet>279</a>    </span>disable: bool,
 <a href=#280 id=280 data-nosnippet>280</a>}
 <a href=#281 id=281 data-nosnippet>281</a>
@@ -286,57 +286,103 @@
 <a href=#286 id=286 data-nosnippet>286</a>}
 <a href=#287 id=287 data-nosnippet>287</a>
 <a href=#288 id=288 data-nosnippet>288</a><span class="kw">impl </span>BackoffParams {
-<a href=#289 id=289 data-nosnippet>289</a>    <span class="kw">pub fn </span>disabled() -&gt; <span class="self">Self </span>{
+<a href=#289 id=289 data-nosnippet>289</a>    <span class="kw">pub const fn </span>new(base: Duration, max: Duration, factor: u32, jitter: Ratio) -&gt; <span class="self">Self </span>{
 <a href=#290 id=290 data-nosnippet>290</a>        <span class="self">Self </span>{
-<a href=#291 id=291 data-nosnippet>291</a>            disable: <span class="bool-val">true</span>,
-<a href=#292 id=292 data-nosnippet>292</a>            ..Default::default()
-<a href=#293 id=293 data-nosnippet>293</a>        }
-<a href=#294 id=294 data-nosnippet>294</a>    }
-<a href=#295 id=295 data-nosnippet>295</a>
-<a href=#296 id=296 data-nosnippet>296</a>    <span class="kw">pub async fn </span>retry&lt;S, T&gt;(
-<a href=#297 id=297 data-nosnippet>297</a>        <span class="kw-2">&amp;</span><span class="self">self</span>,
-<a href=#298 id=298 data-nosnippet>298</a>        <span class="kw-2">mut </span>state: S,
-<a href=#299 id=299 data-nosnippet>299</a>        f: <span class="kw">impl for</span>&lt;<span class="lifetime">'a</span>&gt; Fn(<span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="kw-2">mut </span>S, usize) -&gt; BoxFuture&lt;<span class="lifetime">'a</span>, anyhow::Result&lt;T&gt;&gt;,
-<a href=#300 id=300 data-nosnippet>300</a>    ) -&gt; anyhow::Result&lt;T&gt; {
-<a href=#301 id=301 data-nosnippet>301</a>        <span class="kw">let </span><span class="kw-2">mut </span>delay = <span class="self">self</span>.base;
-<a href=#302 id=302 data-nosnippet>302</a>        <span class="kw">for </span>i <span class="kw">in </span><span class="number">0</span>.. {
-<a href=#303 id=303 data-nosnippet>303</a>            <span class="kw">match </span>f(<span class="kw-2">&amp;mut </span>state, i).<span class="kw">await </span>{
-<a href=#304 id=304 data-nosnippet>304</a>                <span class="prelude-val">Ok</span>(res) =&gt; <span class="kw">return </span><span class="prelude-val">Ok</span>(res),
-<a href=#305 id=305 data-nosnippet>305</a>                <span class="prelude-val">Err</span>(err) <span class="kw">if </span><span class="self">self</span>.disable =&gt; {
-<a href=#306 id=306 data-nosnippet>306</a>                    <span class="kw">return </span><span class="prelude-val">Err</span>(err.context(<span class="string">"Retryable operation failed; retries disabled"</span>));
-<a href=#307 id=307 data-nosnippet>307</a>                },
-<a href=#308 id=308 data-nosnippet>308</a>                <span class="prelude-val">Err</span>(err) =&gt; {
-<a href=#309 id=309 data-nosnippet>309</a>                    <span class="macro">tracing::warn!</span>(
-<a href=#310 id=310 data-nosnippet>310</a>                        <span class="string">"Retryable operation failed, will retry after {delay:?}: {err:#}"
-<a href=#311 id=311 data-nosnippet>311</a>                    </span>);
-<a href=#312 id=312 data-nosnippet>312</a>                    sleep(delay).<span class="kw">await</span>;
-<a href=#313 id=313 data-nosnippet>313</a>                    delay = <span class="self">self</span>.backoff(delay);
-<a href=#314 id=314 data-nosnippet>314</a>                },
-<a href=#315 id=315 data-nosnippet>315</a>            }
-<a href=#316 id=316 data-nosnippet>316</a>        }
-<a href=#317 id=317 data-nosnippet>317</a>        <span class="macro">unreachable!</span>()
-<a href=#318 id=318 data-nosnippet>318</a>    }
-<a href=#319 id=319 data-nosnippet>319</a>
-<a href=#320 id=320 data-nosnippet>320</a>    <span class="attr">#[must_use]
-<a href=#321 id=321 data-nosnippet>321</a>    </span><span class="kw">pub fn </span>backoff(<span class="kw-2">&amp;</span><span class="self">self</span>, delay: Duration) -&gt; Duration {
-<a href=#322 id=322 data-nosnippet>322</a>        <span class="kw">if </span>delay &gt;= <span class="self">self</span>.max {
-<a href=#323 id=323 data-nosnippet>323</a>            <span class="kw">return </span><span class="self">self</span>.max;
-<a href=#324 id=324 data-nosnippet>324</a>        }
-<a href=#325 id=325 data-nosnippet>325</a>
-<a href=#326 id=326 data-nosnippet>326</a>        <span class="kw">let </span><span class="kw-2">mut </span>rng = rand::thread_rng();
-<a href=#327 id=327 data-nosnippet>327</a>
-<a href=#328 id=328 data-nosnippet>328</a>        <span class="comment">// Increase the backoff by the backoff factor.
-<a href=#329 id=329 data-nosnippet>329</a>        </span><span class="kw">let </span>ms = (delay * <span class="self">self</span>.factor).as_millis() <span class="kw">as </span>u64;
-<a href=#330 id=330 data-nosnippet>330</a>
-<a href=#331 id=331 data-nosnippet>331</a>        <span class="comment">// Sample a random jitter factor in the range [0, self.jitter].
-<a href=#332 id=332 data-nosnippet>332</a>        </span><span class="kw">let </span>jitter_num = rng.gen_range(<span class="number">0</span>..<span class="self">self</span>.jitter.numerator);
-<a href=#333 id=333 data-nosnippet>333</a>        <span class="kw">let </span>jitter_den = <span class="self">self</span>.jitter.denominator;
-<a href=#334 id=334 data-nosnippet>334</a>
-<a href=#335 id=335 data-nosnippet>335</a>        <span class="comment">// Increase the delay by the jitter factor.
-<a href=#336 id=336 data-nosnippet>336</a>        </span><span class="kw">let </span>jitter = ms * jitter_num / jitter_den;
-<a href=#337 id=337 data-nosnippet>337</a>        <span class="kw">let </span>delay = Duration::from_millis(ms + jitter);
-<a href=#338 id=338 data-nosnippet>338</a>
-<a href=#339 id=339 data-nosnippet>339</a>        <span class="comment">// Bound the delay by the maximum.
-<a href=#340 id=340 data-nosnippet>340</a>        </span>min(delay, <span class="self">self</span>.max)
-<a href=#341 id=341 data-nosnippet>341</a>    }
-<a href=#342 id=342 data-nosnippet>342</a>}</code></pre></div></section></main></body></html>
+<a href=#291 id=291 data-nosnippet>291</a>            base,
+<a href=#292 id=292 data-nosnippet>292</a>            max,
+<a href=#293 id=293 data-nosnippet>293</a>            factor,
+<a href=#294 id=294 data-nosnippet>294</a>            jitter,
+<a href=#295 id=295 data-nosnippet>295</a>            disable: <span class="bool-val">false</span>,
+<a href=#296 id=296 data-nosnippet>296</a>        }
+<a href=#297 id=297 data-nosnippet>297</a>    }
+<a href=#298 id=298 data-nosnippet>298</a>
+<a href=#299 id=299 data-nosnippet>299</a>    <span class="kw">pub fn </span>disabled() -&gt; <span class="self">Self </span>{
+<a href=#300 id=300 data-nosnippet>300</a>        <span class="self">Self </span>{
+<a href=#301 id=301 data-nosnippet>301</a>            disable: <span class="bool-val">true</span>,
+<a href=#302 id=302 data-nosnippet>302</a>            ..Default::default()
+<a href=#303 id=303 data-nosnippet>303</a>        }
+<a href=#304 id=304 data-nosnippet>304</a>    }
+<a href=#305 id=305 data-nosnippet>305</a>
+<a href=#306 id=306 data-nosnippet>306</a>    <span class="kw">pub async fn </span>retry&lt;S, T&gt;(
+<a href=#307 id=307 data-nosnippet>307</a>        <span class="kw-2">&amp;</span><span class="self">self</span>,
+<a href=#308 id=308 data-nosnippet>308</a>        <span class="kw-2">mut </span>state: S,
+<a href=#309 id=309 data-nosnippet>309</a>        f: <span class="kw">impl for</span>&lt;<span class="lifetime">'a</span>&gt; Fn(<span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="kw-2">mut </span>S, usize) -&gt; BoxFuture&lt;<span class="lifetime">'a</span>, anyhow::Result&lt;T&gt;&gt;,
+<a href=#310 id=310 data-nosnippet>310</a>    ) -&gt; anyhow::Result&lt;T&gt; {
+<a href=#311 id=311 data-nosnippet>311</a>        <span class="kw">let </span><span class="kw-2">mut </span>delay = <span class="self">self</span>.base;
+<a href=#312 id=312 data-nosnippet>312</a>        <span class="kw">for </span>i <span class="kw">in </span><span class="number">0</span>.. {
+<a href=#313 id=313 data-nosnippet>313</a>            <span class="kw">match </span>f(<span class="kw-2">&amp;mut </span>state, i).<span class="kw">await </span>{
+<a href=#314 id=314 data-nosnippet>314</a>                <span class="prelude-val">Ok</span>(res) =&gt; <span class="kw">return </span><span class="prelude-val">Ok</span>(res),
+<a href=#315 id=315 data-nosnippet>315</a>                <span class="prelude-val">Err</span>(err) <span class="kw">if </span><span class="self">self</span>.disable =&gt; {
+<a href=#316 id=316 data-nosnippet>316</a>                    <span class="kw">return </span><span class="prelude-val">Err</span>(err.context(<span class="string">"Retryable operation failed; retries disabled"</span>));
+<a href=#317 id=317 data-nosnippet>317</a>                },
+<a href=#318 id=318 data-nosnippet>318</a>                <span class="prelude-val">Err</span>(err) =&gt; {
+<a href=#319 id=319 data-nosnippet>319</a>                    <span class="macro">tracing::warn!</span>(
+<a href=#320 id=320 data-nosnippet>320</a>                        <span class="string">"Retryable operation failed, will retry after {delay:?}: {err:#}"
+<a href=#321 id=321 data-nosnippet>321</a>                    </span>);
+<a href=#322 id=322 data-nosnippet>322</a>                    sleep(delay).<span class="kw">await</span>;
+<a href=#323 id=323 data-nosnippet>323</a>                    delay = <span class="self">self</span>.backoff(delay);
+<a href=#324 id=324 data-nosnippet>324</a>                },
+<a href=#325 id=325 data-nosnippet>325</a>            }
+<a href=#326 id=326 data-nosnippet>326</a>        }
+<a href=#327 id=327 data-nosnippet>327</a>        <span class="macro">unreachable!</span>()
+<a href=#328 id=328 data-nosnippet>328</a>    }
+<a href=#329 id=329 data-nosnippet>329</a>
+<a href=#330 id=330 data-nosnippet>330</a>    <span class="doccomment">/// Like [`retry`](Self::retry) but stops after `max_retries` retries and only retries when
+<a href=#331 id=331 data-nosnippet>331</a>    /// `should_retry` returns `true` for the error. The closure takes no arguments; capture any
+<a href=#332 id=332 data-nosnippet>332</a>    /// needed state in the closure itself.
+<a href=#333 id=333 data-nosnippet>333</a>    </span><span class="kw">pub async fn </span>retry_if&lt;Fut, T&gt;(
+<a href=#334 id=334 data-nosnippet>334</a>        <span class="kw-2">&amp;</span><span class="self">self</span>,
+<a href=#335 id=335 data-nosnippet>335</a>        max_retries: u32,
+<a href=#336 id=336 data-nosnippet>336</a>        should_retry: <span class="kw">impl </span>Fn(<span class="kw-2">&amp;</span>anyhow::Error) -&gt; bool,
+<a href=#337 id=337 data-nosnippet>337</a>        f: <span class="kw">impl </span>Fn() -&gt; Fut,
+<a href=#338 id=338 data-nosnippet>338</a>    ) -&gt; anyhow::Result&lt;T&gt;
+<a href=#339 id=339 data-nosnippet>339</a>    <span class="kw">where
+<a href=#340 id=340 data-nosnippet>340</a>        </span>Fut: Future&lt;Output = anyhow::Result&lt;T&gt;&gt;,
+<a href=#341 id=341 data-nosnippet>341</a>    {
+<a href=#342 id=342 data-nosnippet>342</a>        <span class="kw">let </span><span class="kw-2">mut </span>delay = <span class="self">self</span>.base;
+<a href=#343 id=343 data-nosnippet>343</a>        <span class="kw">for </span>i <span class="kw">in </span><span class="number">0usize</span>.. {
+<a href=#344 id=344 data-nosnippet>344</a>            <span class="kw">match </span>f().<span class="kw">await </span>{
+<a href=#345 id=345 data-nosnippet>345</a>                <span class="prelude-val">Ok</span>(res) =&gt; <span class="kw">return </span><span class="prelude-val">Ok</span>(res),
+<a href=#346 id=346 data-nosnippet>346</a>                <span class="prelude-val">Err</span>(err) <span class="kw">if </span><span class="self">self</span>.disable =&gt; {
+<a href=#347 id=347 data-nosnippet>347</a>                    <span class="kw">return </span><span class="prelude-val">Err</span>(err.context(<span class="string">"Retryable operation failed; retries disabled"</span>));
+<a href=#348 id=348 data-nosnippet>348</a>                },
+<a href=#349 id=349 data-nosnippet>349</a>                <span class="prelude-val">Err</span>(err) <span class="kw">if </span>(i <span class="kw">as </span>u32) &lt; max_retries &amp;&amp; should_retry(<span class="kw-2">&amp;</span>err) =&gt; {
+<a href=#350 id=350 data-nosnippet>350</a>                    <span class="macro">tracing::warn!</span>(
+<a href=#351 id=351 data-nosnippet>351</a>                        attempt = i + <span class="number">1</span>,
+<a href=#352 id=352 data-nosnippet>352</a>                        max_retries,
+<a href=#353 id=353 data-nosnippet>353</a>                        delay_ms = delay.as_millis(),
+<a href=#354 id=354 data-nosnippet>354</a>                        <span class="string">"Retryable operation failed, will retry after {delay:?}: {err:#}"
+<a href=#355 id=355 data-nosnippet>355</a>                    </span>);
+<a href=#356 id=356 data-nosnippet>356</a>                    sleep(delay).<span class="kw">await</span>;
+<a href=#357 id=357 data-nosnippet>357</a>                    delay = <span class="self">self</span>.backoff(delay);
+<a href=#358 id=358 data-nosnippet>358</a>                },
+<a href=#359 id=359 data-nosnippet>359</a>                <span class="prelude-val">Err</span>(err) =&gt; <span class="kw">return </span><span class="prelude-val">Err</span>(err),
+<a href=#360 id=360 data-nosnippet>360</a>            }
+<a href=#361 id=361 data-nosnippet>361</a>        }
+<a href=#362 id=362 data-nosnippet>362</a>        <span class="macro">unreachable!</span>()
+<a href=#363 id=363 data-nosnippet>363</a>    }
+<a href=#364 id=364 data-nosnippet>364</a>
+<a href=#365 id=365 data-nosnippet>365</a>    <span class="attr">#[must_use]
+<a href=#366 id=366 data-nosnippet>366</a>    </span><span class="kw">pub fn </span>backoff(<span class="kw-2">&amp;</span><span class="self">self</span>, delay: Duration) -&gt; Duration {
+<a href=#367 id=367 data-nosnippet>367</a>        <span class="kw">if </span>delay &gt;= <span class="self">self</span>.max {
+<a href=#368 id=368 data-nosnippet>368</a>            <span class="kw">return </span><span class="self">self</span>.max;
+<a href=#369 id=369 data-nosnippet>369</a>        }
+<a href=#370 id=370 data-nosnippet>370</a>
+<a href=#371 id=371 data-nosnippet>371</a>        <span class="kw">let </span><span class="kw-2">mut </span>rng = rand::thread_rng();
+<a href=#372 id=372 data-nosnippet>372</a>
+<a href=#373 id=373 data-nosnippet>373</a>        <span class="comment">// Increase the backoff by the backoff factor.
+<a href=#374 id=374 data-nosnippet>374</a>        </span><span class="kw">let </span>ms = (delay * <span class="self">self</span>.factor).as_millis() <span class="kw">as </span>u64;
+<a href=#375 id=375 data-nosnippet>375</a>
+<a href=#376 id=376 data-nosnippet>376</a>        <span class="comment">// Sample a random jitter factor in the range [0, self.jitter].
+<a href=#377 id=377 data-nosnippet>377</a>        </span><span class="kw">let </span>jitter_num = rng.gen_range(<span class="number">0</span>..<span class="self">self</span>.jitter.numerator);
+<a href=#378 id=378 data-nosnippet>378</a>        <span class="kw">let </span>jitter_den = <span class="self">self</span>.jitter.denominator;
+<a href=#379 id=379 data-nosnippet>379</a>
+<a href=#380 id=380 data-nosnippet>380</a>        <span class="comment">// Increase the delay by the jitter factor.
+<a href=#381 id=381 data-nosnippet>381</a>        </span><span class="kw">let </span>jitter = ms * jitter_num / jitter_den;
+<a href=#382 id=382 data-nosnippet>382</a>        <span class="kw">let </span>delay = Duration::from_millis(ms + jitter);
+<a href=#383 id=383 data-nosnippet>383</a>
+<a href=#384 id=384 data-nosnippet>384</a>        <span class="comment">// Bound the delay by the maximum.
+<a href=#385 id=385 data-nosnippet>385</a>        </span>min(delay, <span class="self">self</span>.max)
+<a href=#386 id=386 data-nosnippet>386</a>    }
+<a href=#387 id=387 data-nosnippet>387</a>}
+</code></pre></div></section></main></body></html>

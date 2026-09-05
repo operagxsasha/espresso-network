@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"enum":["RewardMerkleTreeVersion"],"fn":["catchup","config","explorer","fee","get_public_env_vars","merklized_state","node","reward","state_signature","submit"],"mod":["availability"],"type":["ADVZNamespaceProofQueryData","ExplorerApi","MerklizedStateApi","NamespaceProofQueryData"]};

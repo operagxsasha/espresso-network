@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"fn":["register_api"],"struct":["Catchup","Config","Explorer","HotshotEvents","Http","LightClient","Options","Query","State","Status","Submit"]};

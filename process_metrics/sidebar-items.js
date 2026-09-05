@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"mod":["ext","portable"],"struct":["ProcessMetrics"]};

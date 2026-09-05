@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"fn":["define_api","get_leaf_proof"],"struct":["Options"]};

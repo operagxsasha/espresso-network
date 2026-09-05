@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["ErrorSource","Severity"],"struct":["CoordinatorError"]};

@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"constant":["SIGNATURE_STORAGE_CAPACITY"],"mod":["relay_server"],"struct":["StateSignatureMemStorage","StateSigner"]};

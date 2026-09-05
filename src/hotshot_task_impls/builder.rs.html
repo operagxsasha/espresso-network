@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `crates/hotshot/task-impls/src/builder.rs`."><title>builder.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Italic-81dc35de.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-MediumItalic-ccf7e434.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2"href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../static.files/rustdoc-e56847b5.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="hotshot_task_impls" data-themes="" data-resource-suffix="" data-rustdoc-version="1.91.0 (f8297e351 2025-10-28)" data-channel="1.91.0" data-search-js="search-e256b49e.js" data-stringdex-js="stringdex-c3e638e9.js" data-settings-js="settings-c38705f0.js" ><script src="../../static.files/storage-e2aeef58.js"></script><script defer src="../../static.files/src-script-813739b1.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-6dc2a7f3.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-263c88ec.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-eab170b8.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-044be391.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer" title="Drag to resize sidebar"></div><main><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">hotshot_task_impls/</div>builder.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap digits-3"><pre class="rust"><code><a href=#1 id=1 data-nosnippet>1</a><span class="comment">// Copyright (c) 2021-2024 Espresso Systems (espressosys.com)
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `crates/hotshot/task-impls/src/builder.rs`."><title>builder.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Italic-81dc35de.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-MediumItalic-ccf7e434.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2"href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../static.files/rustdoc-17e0aaed.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="hotshot_task_impls" data-themes="" data-resource-suffix="" data-rustdoc-version="1.97.1 (8bab26f4f 2026-07-14)" data-channel="1.97.1" data-search-js="search-fd9372ac.js" data-stringdex-js="stringdex-2da4960a.js" data-settings-js="settings-170eb4bf.js" ><script src="../../static.files/storage-41dd4d93.js"></script><script defer src="../../static.files/src-script-813739b1.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-fcd733ba.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-f7c3ffd8.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-eab170b8.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-044be391.svg"></head><body class="rustdoc src"><a class="skip-main-content" href="#main-content">Skip to main content</a><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer" title="Drag to resize sidebar"></div><main><section id="main-content" class="content" tabindex="-1"><div class="main-heading"><h1><div class="sub-heading">hotshot_task_impls/</div>builder.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap digits-3"><pre class="rust"><code><a href=#1 id=1 data-nosnippet>1</a><span class="comment">// Copyright (c) 2021-2024 Espresso Systems (espressosys.com)
 <a href=#2 id=2 data-nosnippet>2</a>// This file is part of the HotShot repository.
 <a href=#3 id=3 data-nosnippet>3</a>
 <a href=#4 id=4 data-nosnippet>4</a>// You should have received a copy of the MIT License
@@ -15,8 +15,8 @@
 <a href=#15 id=15 data-nosnippet>15</a>    data::VidCommitment,
 <a href=#16 id=16 data-nosnippet>16</a>    traits::{node_implementation::NodeType, signature_key::SignatureKey},
 <a href=#17 id=17 data-nosnippet>17</a>};
-<a href=#18 id=18 data-nosnippet>18</a><span class="kw">use </span>serde::{Deserialize, Serialize};
-<a href=#19 id=19 data-nosnippet>19</a><span class="kw">use </span>surf_disco::{client::HealthStatus, Client, Url};
+<a href=#18 id=18 data-nosnippet>18</a><span class="kw">use </span>http_client::{Client, Url, healthcheck::HealthStatus};
+<a href=#19 id=19 data-nosnippet>19</a><span class="kw">use </span>serde::{Deserialize, Serialize};
 <a href=#20 id=20 data-nosnippet>20</a><span class="kw">use </span>tagged_base64::TaggedBase64;
 <a href=#21 id=21 data-nosnippet>21</a><span class="kw">use </span>thiserror::Error;
 <a href=#22 id=22 data-nosnippet>22</a><span class="kw">use </span>tokio::time::sleep;
@@ -61,7 +61,7 @@
 <a href=#61 id=61 data-nosnippet>61</a>
 <a href=#62 id=62 data-nosnippet>62</a><span class="doccomment">/// Client for builder API
 <a href=#63 id=63 data-nosnippet>63</a></span><span class="kw">pub struct </span>BuilderClient&lt;TYPES: NodeType, Ver: StaticVersionType&gt; {
-<a href=#64 id=64 data-nosnippet>64</a>    <span class="doccomment">/// Underlying surf_disco::Client for the legacy builder api
+<a href=#64 id=64 data-nosnippet>64</a>    <span class="doccomment">/// Underlying http_client::Client for the legacy builder api
 <a href=#65 id=65 data-nosnippet>65</a>    </span>client: Client&lt;BuilderApiError, Ver&gt;,
 <a href=#66 id=66 data-nosnippet>66</a>    <span class="doccomment">/// Marker for [`NodeType`] used here
 <a href=#67 id=67 data-nosnippet>67</a>    </span>_marker: std::marker::PhantomData&lt;TYPES&gt;,
@@ -129,11 +129,11 @@
 <a href=#129 id=129 data-nosnippet>129</a>
 <a href=#130 id=130 data-nosnippet>130</a><span class="doccomment">/// Version 0.1
 <a href=#131 id=131 data-nosnippet>131</a></span><span class="kw">pub mod </span>v0_1 {
-<a href=#132 id=132 data-nosnippet>132</a>    <span class="kw">use </span>hotshot_builder_api::v0_1::block_info::{
-<a href=#133 id=133 data-nosnippet>133</a>        AvailableBlockData, AvailableBlockHeaderInputV2, AvailableBlockHeaderInputV2Either,
-<a href=#134 id=134 data-nosnippet>134</a>        AvailableBlockHeaderInputV2Legacy,
-<a href=#135 id=135 data-nosnippet>135</a>    };
-<a href=#136 id=136 data-nosnippet>136</a>    <span class="kw">pub use </span>hotshot_builder_api::v0_1::Version;
+<a href=#132 id=132 data-nosnippet>132</a>    <span class="kw">pub use </span>hotshot_builder_api::v0_1::Version;
+<a href=#133 id=133 data-nosnippet>133</a>    <span class="kw">use </span>hotshot_builder_api::v0_1::block_info::{
+<a href=#134 id=134 data-nosnippet>134</a>        AvailableBlockData, AvailableBlockHeaderInputV2, AvailableBlockHeaderInputV2Either,
+<a href=#135 id=135 data-nosnippet>135</a>        AvailableBlockHeaderInputV2Legacy,
+<a href=#136 id=136 data-nosnippet>136</a>    };
 <a href=#137 id=137 data-nosnippet>137</a>    <span class="kw">use </span>hotshot_types::{
 <a href=#138 id=138 data-nosnippet>138</a>        constants::LEGACY_BUILDER_MODULE,
 <a href=#139 id=139 data-nosnippet>139</a>        traits::{node_implementation::NodeType, signature_key::SignatureKey},
@@ -295,4 +295,5 @@
 <a href=#295 id=295 data-nosnippet>295</a>
 <a href=#296 id=296 data-nosnippet>296</a>    <span class="doccomment">/// Builder API version
 <a href=#297 id=297 data-nosnippet>297</a>    </span><span class="kw">pub type </span>Version = StaticVersion&lt;<span class="number">0</span>, <span class="number">2</span>&gt;;
-<a href=#298 id=298 data-nosnippet>298</a>}</code></pre></div></section></main></body></html>
+<a href=#298 id=298 data-nosnippet>298</a>}
+</code></pre></div></section></main></body></html>

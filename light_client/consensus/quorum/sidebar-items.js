@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"struct":["ChainVersions","StakeTable","StakeTableQuorum"],"trait":["Quorum","StakeTablePair"],"type":["Certificate"]};

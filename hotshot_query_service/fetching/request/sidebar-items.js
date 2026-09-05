@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"struct":["LeafRequest","PayloadRequest","VidCommonRequest"],"trait":["Request"]};
+window.SIDEBAR_ITEMS = {"struct":["BlockRangeRequest","Certificate2Request","LeafRangeRequest","LeafRequest","PayloadRequest","VidCommonRangeRequest","VidCommonRequest"],"trait":["Request"]};

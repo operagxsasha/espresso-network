@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"constant":["MAX_NOISE_HANDSHAKE_SIZE"],"fn":["configure_socket","handshake","on_handshake","recv_frame","remote_static_key","select_version","send_frame","try_connect"],"struct":["Connection"],"type":["Prologue","Result"]};

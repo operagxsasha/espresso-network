@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"mod":["sealed"],"struct":["Empty","SetBudget","SetConfig","SetInbound","SetMessages","SetMetrics","SetRetry"],"trait":["IsComplete","IsSet","IsUnset","State"]};

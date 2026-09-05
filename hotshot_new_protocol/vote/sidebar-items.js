@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"mod":["accumulate"],"struct":["EpochRootTally","SimpleTally","VoteCollector","VoteStats"],"trait":["Ballot","Tally"],"type":["EpochRootCerts"]};

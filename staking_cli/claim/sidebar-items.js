@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"fn":["claim_validator_exit","claim_withdrawal"]};
+window.SIDEBAR_ITEMS = {"fn":["fetch_claim_rewards_inputs","fetch_reward_claim_data","unclaimed_rewards"],"struct":["RewardClaimData"]};
